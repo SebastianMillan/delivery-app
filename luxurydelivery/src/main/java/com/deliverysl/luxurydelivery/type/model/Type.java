@@ -16,7 +16,10 @@ import java.util.List;
 @Entity
 public class Type {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
     private Long id;
 
     private String name;

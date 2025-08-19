@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.model;
 
+import com.deliverysl.luxurydelivery.product.model.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,10 @@ import lombok.NoArgsConstructor;
 @Entity
 public class OrderLine {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
     private Long id;
 
     private int quantity;

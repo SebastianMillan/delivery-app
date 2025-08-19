@@ -19,7 +19,10 @@ import lombok.experimental.SuperBuilder;
 )
 public abstract class User {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
     private Long id;
 
     private String name;

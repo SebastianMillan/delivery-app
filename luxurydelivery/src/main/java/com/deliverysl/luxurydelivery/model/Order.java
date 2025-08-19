@@ -19,7 +19,10 @@ import java.util.List;
 )
 public class Order {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
     private Long id;
 
     private double total;
