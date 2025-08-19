@@ -16,7 +16,6 @@ import java.util.List;
 @RequestMapping(
         "/type"
 )
-
 public class TypeController
         implements TypeControllerSwagger {
 

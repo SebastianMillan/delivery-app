@@ -1,9 +1,7 @@
-package com.deliverysl.luxurydelivery.model;
+package com.deliverysl.luxurydelivery.allergen.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import com.deliverysl.luxurydelivery.product.model.Product;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +16,10 @@ import java.util.List;
 @Entity
 public class Allergen {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
     private Long id;
 
     private String name;

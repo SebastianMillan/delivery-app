@@ -1,4 +1,4 @@
-package com.deliverysl.luxurydelivery.model;
+package com.deliverysl.luxurydelivery.product.model;
 
 public enum FoodPortion {
     TAPA,

@@ -1,6 +1,6 @@
 package com.deliverysl.luxurydelivery.category.model;
 
-import com.deliverysl.luxurydelivery.model.Product;
+import com.deliverysl.luxurydelivery.product.model.Product;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,10 @@ import java.util.List;
 @Entity
 public class Category {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
     private Long id;
 
     private String name;
