@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.model;
 
+import com.deliverysl.luxurydelivery.order.model.Order;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

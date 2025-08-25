@@ -1,6 +1,6 @@
-package com.deliverysl.luxurydelivery.model;
+package com.deliverysl.luxurydelivery.order.model;
 
-public enum StateOrder {
+public enum  StateOrder {
     PENDING,
     IN_KITCHEN,
     READY,

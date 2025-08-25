@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 // Le dice a Jackson que incluya en el JSON una propiedad "tipo" con el nombre del subtipo concreto (FOOD, DRINK, etc.)
@@ -42,7 +43,7 @@ public abstract class Product {
     protected String name;
     protected String description;
     protected String image;
-    protected double price;
+    protected BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(

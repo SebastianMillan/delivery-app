@@ -11,17 +11,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RestaurantMapper {
 
-    public Restaurant toEntity(RestaurantDTO restaurantDTO, Type type){
-
-        return Restaurant.builder()
-                .id(restaurantDTO.id())
-                .name(restaurantDTO.name())
-                .avatar(restaurantDTO.avatar())
-                .rating(restaurantDTO.rating())
-                .type(type)
-                .build();
-    }
-
     public RestaurantDTO toDto(Restaurant restaurant){
         return new RestaurantDTO(
                 restaurant.getId(),
@@ -31,5 +20,16 @@ public class RestaurantMapper {
                 restaurant.getType().getName()
                 //restaurant.getEmployeeList().size()
         );
+    }
+
+    public Restaurant toEntity(RestaurantDTO restaurantDTO, Type type){
+
+        return Restaurant.builder()
+                .id(restaurantDTO.id())
+                .name(restaurantDTO.name())
+                .avatar(restaurantDTO.avatar())
+                .rating(restaurantDTO.rating())
+                .type(type)
+                .build();
     }
 }

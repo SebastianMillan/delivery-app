@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.model;
 
+import com.deliverysl.luxurydelivery.order.model.Order;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
