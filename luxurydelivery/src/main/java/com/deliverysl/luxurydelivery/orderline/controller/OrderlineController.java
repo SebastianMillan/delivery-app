@@ -1,18 +1,12 @@
 package com.deliverysl.luxurydelivery.orderline.controller;
 
-import com.deliverysl.luxurydelivery.order.mapper.OrderMapper;
 import com.deliverysl.luxurydelivery.order.model.Order;
 import com.deliverysl.luxurydelivery.order.service.OrderService;
 import com.deliverysl.luxurydelivery.orderline.dto.CreateOrderlineDTO;
 import com.deliverysl.luxurydelivery.orderline.dto.OrderlineDTO;
-import com.deliverysl.luxurydelivery.orderline.exception.OrderlineNotFoundException;
 import com.deliverysl.luxurydelivery.orderline.mapper.OrderlineMapper;
 import com.deliverysl.luxurydelivery.orderline.model.Orderline;
-import com.deliverysl.luxurydelivery.orderline.service.OrderlineService;
-import com.deliverysl.luxurydelivery.product.model.Product;
-import com.deliverysl.luxurydelivery.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -75,4 +69,36 @@ public class OrderlineController implements OrderlineControllerSwagger {
         orderService.deleteOrderline(orderId,orderlineId);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{orderlineId:[0-9]+}/activate")
+    @Override
+    public ResponseEntity<OrderlineDTO> activate(@PathVariable Long orderId,@PathVariable Long orderlineId) {
+        return ResponseEntity.ok(orderlineMapper.toDto(orderService.activateOrderline(orderId,orderlineId)));
+    }
+
+
+    @GetMapping("/enable")
+    @Override
+    public ResponseEntity<List<OrderlineDTO>> findByActivateTrue(@PathVariable Long orderId) {
+        List<Orderline> orderlineList = orderService.findByActivateTrueOrdeline(orderId);
+
+        return orderlineList.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(orderlineList.stream()
+                        .map(orderlineMapper::toDto)
+                        .toList());
+    }
+
+    @GetMapping("/disable")
+    @Override
+    public ResponseEntity<List<OrderlineDTO>> findByActivateFalse(@PathVariable Long orderId) {
+        List<Orderline> orderlineList = orderService.findByActivateFalseOrdeline(orderId);
+
+        return orderlineList.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(orderlineList.stream()
+                        .map(orderlineMapper::toDto)
+                        .toList());
+    }
+
 }

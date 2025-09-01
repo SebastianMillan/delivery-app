@@ -49,5 +49,17 @@ public class Restaurant {
     )
     private List<Category> categoryList;
 
+    @Column(nullable = false)
+    private boolean activate;
+
+    public void addCategory(Category category){
+        this.categoryList.add(category);
+        category.setRestaurant(this);
+    }
+
+    /*public void deleteCategory(Category category){
+        this.categoryList.remove(category);
+        category.setRestaurant(null);
+    }*/
 
 }

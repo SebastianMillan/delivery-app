@@ -21,7 +21,8 @@ public class ProductMapper {
                 product.getCategory().getName(),
                 product.getAllergensList().stream()
                         .map(allergenMapper::toShortDto)
-                        .toList()
+                        .toList(),
+                product.isActivate()
         );
     }
 }

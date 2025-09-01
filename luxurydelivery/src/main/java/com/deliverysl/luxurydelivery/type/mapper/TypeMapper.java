@@ -13,6 +13,7 @@ public class TypeMapper {
                 .id(typeDTO.id())
                 .name(typeDTO.name())
                 .description(typeDTO.description())
+                .activate(typeDTO.activate())
                 .build();
     }
 
@@ -20,7 +21,8 @@ public class TypeMapper {
         return new TypeDTO(
                 type.getId(),
                 type.getName(),
-                type.getDescription()
+                type.getDescription(),
+                type.isActivate()
         );
     }
 

@@ -12,5 +12,6 @@ public record FoodDTO(
         BigDecimal price,
         String category,
         int calories,
-        List<ShortAllergenDTO> allergenList
+        List<ShortAllergenDTO> allergenList,
+        boolean active
 ){}

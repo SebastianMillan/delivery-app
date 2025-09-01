@@ -4,9 +4,11 @@ import com.deliverysl.luxurydelivery.orderline.dto.CreateOrderlineDTO;
 import com.deliverysl.luxurydelivery.orderline.exception.OrderlineNotFoundException;
 import com.deliverysl.luxurydelivery.orderline.mapper.OrderlineMapper;
 import com.deliverysl.luxurydelivery.orderline.model.Orderline;
+import com.deliverysl.luxurydelivery.orderline.repository.OrderlineRepository;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import com.deliverysl.luxurydelivery.product.service.ProductService;
 import com.deliverysl.luxurydelivery.utils.BaseServiceImpl;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class OrderlineService extends BaseServiceImpl<Orderline,Long> {
 
     private final ProductService productService;
     private final OrderlineMapper orderlineMapper;
+    private final OrderlineRepository orderlineRepository;
 
     //Aunque se accedan a la lineas desde es Order
     //Es util para alguna lectura puntual
@@ -48,7 +51,5 @@ public class OrderlineService extends BaseServiceImpl<Orderline,Long> {
         return orderline;
 
     }
-
-
 
 }

@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.orderline.model;
 
+import com.deliverysl.luxurydelivery.order.model.Order;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Orderline {
+public class Orderline{
 
     @Id
     @GeneratedValue(
@@ -25,12 +26,20 @@ public class Orderline {
     private int quantity;
     private BigDecimal subtotal;
 
-    //Unidireccional
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "product_id"
     )
     private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "orders_id"
+    )
+    private Order order;
+
+    @Column(nullable = false)
+    private boolean activate;
 
     //Metodo Helper
     public void calculateSubtotal(){

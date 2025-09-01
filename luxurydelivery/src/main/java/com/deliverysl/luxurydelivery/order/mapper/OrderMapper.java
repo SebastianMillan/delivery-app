@@ -22,11 +22,12 @@ public class OrderMapper {
         return new OrderDTO(
                 order.getId(),
                 order.getStateOrder().name(),
-                order.getDateTime(),
+                order.getCreateDate(),
                 order.getOrderlineList().stream()
-                        .map(orderlineMapper::toShortDto)
+                        .map(orderlineMapper::toDto)
                         .toList(),
-                order.getTotal()
+                order.getTotal(),
+                order.isActivate()
         );
 
     }
@@ -34,9 +35,11 @@ public class OrderMapper {
     public Order toEntity(OrderDTO orderDTO){
         return Order.builder()
                 .id(orderDTO.id())
-                .dateTime(orderDTO.dateTime())
+                .createDate(orderDTO.dateTime())
                 .total(orderDTO.total())
-                .orderlineList(new ArrayList<>()) // Se crean en el servicio
+                .orderlineList(new ArrayList<>())
+                .activate(orderDTO.activate())
+                // Se crean en el servicio
                 //.employee()
                 //.client()
                 //.rider()
@@ -46,7 +49,6 @@ public class OrderMapper {
 
     public CreateOrderDTO createOrderDTO(Order order){
         return new CreateOrderDTO(
-                String.valueOf(order.getStateOrder()),
                 order.getOrderlineList().stream()
                         .map(orderlineMapper::toCreateDto)
                         .toList()
@@ -55,8 +57,8 @@ public class OrderMapper {
 
     public Order toEntity(CreateOrderDTO createOrderDTO){
         return Order.builder()
-                .stateOrder(StateOrder.valueOf(createOrderDTO.stateOrder()))
                 .orderlineList(new ArrayList<>())
+                //.active(createOrderDTO.active())
                 .build();
     }
 

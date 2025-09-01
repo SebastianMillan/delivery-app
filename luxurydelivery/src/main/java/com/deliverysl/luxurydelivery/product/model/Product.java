@@ -32,7 +32,7 @@ import java.util.List;
         strategy = InheritanceType.JOINED
 )
 @Entity
-public abstract class Product {
+public abstract class Product{
 
     @Id
     @GeneratedValue(
@@ -60,6 +60,9 @@ public abstract class Product {
     )
     protected List<Allergen> allergensList;
 
+    @Column(nullable = false)
+    protected boolean activate;
+
     // Los métodos helper ayudan a acomplar o desacomplar relaciones bidireccionales entre entidades
     public void addAllergen(Allergen allergen){
         this.allergensList.add(allergen);
@@ -70,4 +73,5 @@ public abstract class Product {
         this.allergensList.remove(allergen);
         allergen.getProductList().remove(this);
     }
+
 }

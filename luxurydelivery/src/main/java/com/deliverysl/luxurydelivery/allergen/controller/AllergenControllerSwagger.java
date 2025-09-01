@@ -98,8 +98,8 @@ public interface AllergenControllerSwagger {
     );
 
     @Operation(
-            summary = "Eliminar un alérgeno",
-            description = "Elimina un alérgeno por su identificador. Responde 204 si se elimina.",
+            summary = "Desactiva un alérgeno",
+            description = "Desactiva un alérgeno por su identificador. Responde 204 si se desactiva.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
@@ -109,4 +109,50 @@ public interface AllergenControllerSwagger {
             @Parameter(description = "Identificador del alérgeno", example = "1")
             Long id
     );
+
+    @Operation(
+            summary = "Activa un alérgeno",
+            description = "Activa un alérgeno desactivado. Devuelve el recurso activado.",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Actualizado",
+                    headers = @Header(name = "Location", description = "URI del recurso creado"),
+                    content = @Content(schema = @Schema(implementation = AllergenDTO.class))
+            ),
+    })
+    ResponseEntity<AllergenDTO>activate(
+            @Parameter(description = "Identificador del alérgeno",example = "1")
+            Long id
+    );
+
+    @Operation(
+            summary = "Listado de alérgenos activos",
+            description = "Devuelve todos los alérgenos activos. Si no hay resultados, responde 204.",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Listado recuperado",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = AllergenDTO.class)))
+            ),
+    })
+    ResponseEntity<List<AllergenDTO>> findByActivateTrue();
+
+    @Operation(
+            summary = "Listado de alérgenos desactivados",
+            description = "Devuelve todos los alérgenos desactivados. Si no hay resultados, responde 204.",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Listado recuperado",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = AllergenDTO.class)))
+            ),
+    })
+    ResponseEntity<List<AllergenDTO>> findByActivateFalse();
 }

@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.order.controller;
 
+import com.deliverysl.luxurydelivery.allergen.dto.CreateAllergenDTO;
 import com.deliverysl.luxurydelivery.order.dto.CreateOrderDTO;
 import com.deliverysl.luxurydelivery.order.dto.EditOrderDto;
 import com.deliverysl.luxurydelivery.order.dto.OrderDTO;
@@ -56,7 +57,39 @@ public class OrderController implements OrderControllerSwagger{
     @DeleteMapping("/{id:[0-9]+}")
     @Override
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        orderService.deleteById(id);
+        orderService.deleteOrderById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id:[0-9]+}/activate")
+    @Override
+    public ResponseEntity<OrderDTO> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(orderMapper.toDto(orderService.activate(id)));
+    }
+
+    @Override
+    @GetMapping("/enable")
+    public ResponseEntity<List<OrderDTO>> findByActivateTrue() {
+        List<Order> orderList = orderService.findByActivateTrue();
+
+        return orderList.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(orderList.stream()
+                        .map(orderMapper::toDto)
+                        .toList());
+    }
+
+    @Override
+    @GetMapping("/disable")
+    public ResponseEntity<List<OrderDTO>> findByActivateFalse() {
+
+        List<Order> orderList = orderService.findByActivateFalse();
+
+        return orderList.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(orderList.stream()
+                        .map(orderMapper::toDto)
+                        .toList());
+    }
+
 }

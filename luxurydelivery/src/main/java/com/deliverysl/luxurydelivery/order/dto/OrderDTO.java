@@ -1,6 +1,6 @@
 package com.deliverysl.luxurydelivery.order.dto;
 
-import com.deliverysl.luxurydelivery.orderline.dto.ShortOrderlineDTO;
+import com.deliverysl.luxurydelivery.orderline.dto.OrderlineDTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,10 +10,11 @@ public record OrderDTO(
         Long id,
         String stateOrder,
         LocalDateTime dateTime,
-        List<ShortOrderlineDTO> orderlineDTOList,
-        BigDecimal total
-   //   String nameEmploye
-   //   String nameRider
-   //   String nameClient
+        List<OrderlineDTO> orderlineDTOList,
+        BigDecimal total,
+        boolean activate
+        //String nameEmploye
+        //String nameRider
+        //String nameClient
 ) {
 }

@@ -12,5 +12,6 @@ public record DrinkDTO(
         BigDecimal price,
         String category,
         String drinkSize,
-        List<ShortAllergenDTO> allergenList
+        List<ShortAllergenDTO> allergenList,
+        boolean active
 ) {}

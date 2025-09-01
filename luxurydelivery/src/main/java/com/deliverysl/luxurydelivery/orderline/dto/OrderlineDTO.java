@@ -6,6 +6,7 @@ public record OrderlineDTO(
         Long id,
         String product,
         int quantity,
-        BigDecimal subtotal
+        BigDecimal subtotal,
+        boolean activate
 ) {
 }

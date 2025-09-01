@@ -27,22 +27,28 @@ public class FoodService extends BaseServiceImpl<Food, Long> {
 
     @Transactional
     public Food create(CreateFoodDTO createFoodDTO){
-        Category category = categoryService.findById(createFoodDTO.categoryId());
+        Category category = categoryService.findByIdOrThrow(createFoodDTO.categoryId());
         List<Allergen> allergenList = createFoodDTO.allergensIdList().stream()
                 .map(allergenService::findByIdOrThrow)
-                .collect(Collectors.toList());
+                .toList();
 
         Food food = mapper.toEntity(createFoodDTO, category);
+        food.setActivate(true);
+        category.addProduct(food);
 
         // Agregamos con los helper los alergenos a este Food
-        allergenList.forEach(food::addAllergen);
+        allergenList.forEach(allergen -> {
+            if (allergen.isActivate()){
+                food.addAllergen(allergen);
+            }
+        });
 
         return save(food);
     }
 
     @Transactional
     public Food edit(Long id, CreateFoodDTO createFoodDTO){
-        Category category = categoryService.findById(createFoodDTO.categoryId());
+        Category category = categoryService.findByIdOrThrow(createFoodDTO.categoryId());
         List<Allergen> allergenList = createFoodDTO.allergensIdList().stream()
                 .map(allergenService::findByIdOrThrow)
                 .toList();
