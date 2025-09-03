@@ -1,7 +1,7 @@
 package com.deliverysl.luxurydelivery.restaurant.model;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
-import com.deliverysl.luxurydelivery.model.Employee;
+import com.deliverysl.luxurydelivery.user.model.Employee;
 import com.deliverysl.luxurydelivery.type.model.Type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,9 @@ public class Restaurant {
     )
     private Long id;
 
+    @Column(unique = true)
     private String name;
+
     private String avatar;
     private String location;
     private double rating;

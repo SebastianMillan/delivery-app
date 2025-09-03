@@ -12,9 +12,9 @@ public record OrderDTO(
         LocalDateTime dateTime,
         List<OrderlineDTO> orderlineDTOList,
         BigDecimal total,
+        String nameEmploye,
+        String nameClient,
+        String nameRider,
         boolean activate
-        //String nameEmploye
-        //String nameRider
-        //String nameClient
 ) {
 }

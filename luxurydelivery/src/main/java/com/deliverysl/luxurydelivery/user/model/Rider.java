@@ -1,26 +1,25 @@
-package com.deliverysl.luxurydelivery.model;
+package com.deliverysl.luxurydelivery.user.model;
 
 import com.deliverysl.luxurydelivery.order.model.Order;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 public class Rider extends User{
 
     private String dni;
     private String location;
-    private boolean active;
 
     @OneToMany(
             mappedBy = "rider",

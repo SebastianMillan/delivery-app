@@ -1,6 +1,10 @@
 package com.deliverysl.luxurydelivery.order.dto;
 
+
 public record EditOrderDto(
-        String stateOrder
+        String stateOrder,
+        Long idEmployee,
+        Long idClient,
+        Long idRider
 ) {
 }

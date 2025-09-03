@@ -10,5 +10,6 @@ public record CreateRestaurandDTO(
         double rating,
         String type,
         List<CategoryCreateDTO> categoryDTOList
+        //List<EmployeeCreateDTO> employeeCreateDTOList
 ) {
 }

@@ -11,7 +11,7 @@ public record RestaurantDTO(
         double rating,
         String type,
         List<CategoryDTO> categoryDTOList,
-        boolean activate
-        //int employeeNumber
+        boolean activate,
+        int employeeNumber
 ) {
 }

@@ -27,8 +27,8 @@ public class RestaurantMapper {
                 restaurant.getCategoryList().stream()
                         .map(categoryMapper::toDto)
                         .toList(),
-                restaurant.isActivate()
-                //restaurant.getEmployeeList().size()
+                restaurant.isActivate(),
+                restaurant.getEmployeeList().size()
         );
     }
 
@@ -41,6 +41,7 @@ public class RestaurantMapper {
                 .rating(restaurantDTO.rating())
                 .type(type)
                 .categoryList(new ArrayList<>())
+                .employeeList(new ArrayList<>())
                 .activate(restaurantDTO.activate())
                 .build();
     }

@@ -6,8 +6,10 @@ import com.deliverysl.luxurydelivery.order.dto.OrderDTO;
 import com.deliverysl.luxurydelivery.order.model.Order;
 import com.deliverysl.luxurydelivery.order.model.StateOrder;
 import com.deliverysl.luxurydelivery.orderline.mapper.OrderlineMapper;
+import com.deliverysl.luxurydelivery.user.model.Client;
+import com.deliverysl.luxurydelivery.user.model.Employee;
+import com.deliverysl.luxurydelivery.user.model.Rider;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,22 +29,25 @@ public class OrderMapper {
                         .map(orderlineMapper::toDto)
                         .toList(),
                 order.getTotal(),
+                order.getEmployee().getName(),
+                order.getClient().getName(),
+                order.getRider().getName(),
                 order.isActivate()
         );
 
     }
 
-    public Order toEntity(OrderDTO orderDTO){
+    public Order toEntity(OrderDTO orderDTO, Employee employee, Client client, Rider rider){
+
         return Order.builder()
                 .id(orderDTO.id())
                 .createDate(orderDTO.dateTime())
                 .total(orderDTO.total())
                 .orderlineList(new ArrayList<>())
                 .activate(orderDTO.activate())
-                // Se crean en el servicio
-                //.employee()
-                //.client()
-                //.rider()
+                .employee(employee)
+                .client(client)
+                .rider(rider)
                 .build();
 
     }
@@ -51,26 +56,38 @@ public class OrderMapper {
         return new CreateOrderDTO(
                 order.getOrderlineList().stream()
                         .map(orderlineMapper::toCreateDto)
-                        .toList()
+                        .toList(),
+                order.getEmployee().getId(),
+                order.getClient().getId(),
+                order.getRider().getId()
         );
     }
 
-    public Order toEntity(CreateOrderDTO createOrderDTO){
+    public Order toEntity(CreateOrderDTO createOrderDTO,Employee employee,Client client,Rider rider){
         return Order.builder()
                 .orderlineList(new ArrayList<>())
+                .employee(employee)
+                .client(client)
+                .rider(rider)
                 //.active(createOrderDTO.active())
                 .build();
     }
 
     public EditOrderDto editOrderDto(Order order){
         return new EditOrderDto(
-                String.valueOf(order.getStateOrder())
+                String.valueOf(order.getStateOrder()),
+                order.getEmployee().getId(),
+                order.getClient().getId(),
+                order.getRider().getId()
         );
     }
 
-    public Order toEntity(EditOrderDto editOrderDto){
+    public Order toEntity(EditOrderDto editOrderDto,Employee employee,Client client,Rider rider){
         return Order.builder()
                 .stateOrder(StateOrder.valueOf(editOrderDto.stateOrder()))
+                .employee(employee)
+                .client(client)
+                .rider(rider)
                 .build();
     }
 

@@ -1,8 +1,8 @@
 package com.deliverysl.luxurydelivery.order.model;
 
-import com.deliverysl.luxurydelivery.model.Client;
-import com.deliverysl.luxurydelivery.model.Employee;
-import com.deliverysl.luxurydelivery.model.Rider;
+import com.deliverysl.luxurydelivery.user.model.Client;
+import com.deliverysl.luxurydelivery.user.model.Employee;
+import com.deliverysl.luxurydelivery.user.model.Rider;
 import com.deliverysl.luxurydelivery.orderline.model.Orderline;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -76,6 +76,7 @@ public class Order{
     public void addOrderline(Orderline orderline){
         this.orderlineList.add(orderline);
         orderline.setOrder(this);
+        orderline.setActivate(true);
     }
 
     public void removeOrderline(Orderline orderline){

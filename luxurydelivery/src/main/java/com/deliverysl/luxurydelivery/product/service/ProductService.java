@@ -53,6 +53,4 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
         return productRepository.findByActivateFalse();
     }
 
-
-
 }
