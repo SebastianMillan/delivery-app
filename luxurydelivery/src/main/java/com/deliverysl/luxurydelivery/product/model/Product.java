@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 // Le dice a Jackson que incluya en el JSON una propiedad "tipo" con el nombre del subtipo concreto (FOOD, DRINK, etc.)
@@ -31,7 +32,7 @@ import java.util.List;
         strategy = InheritanceType.JOINED
 )
 @Entity
-public abstract class Product {
+public abstract class Product{
 
     @Id
     @GeneratedValue(
@@ -42,7 +43,7 @@ public abstract class Product {
     protected String name;
     protected String description;
     protected String image;
-    protected double price;
+    protected BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -59,6 +60,9 @@ public abstract class Product {
     )
     protected List<Allergen> allergensList;
 
+    @Column(nullable = false)
+    protected boolean activate;
+
     // Los métodos helper ayudan a acomplar o desacomplar relaciones bidireccionales entre entidades
     public void addAllergen(Allergen allergen){
         this.allergensList.add(allergen);
@@ -69,4 +73,5 @@ public abstract class Product {
         this.allergensList.remove(allergen);
         allergen.getProductList().remove(this);
     }
+
 }

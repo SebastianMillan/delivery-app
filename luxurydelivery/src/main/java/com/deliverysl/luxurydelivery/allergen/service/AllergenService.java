@@ -4,6 +4,7 @@ import com.deliverysl.luxurydelivery.allergen.dto.CreateAllergenDTO;
 import com.deliverysl.luxurydelivery.allergen.exception.AllergenNotFoundException;
 import com.deliverysl.luxurydelivery.allergen.mapper.AllergenMapper;
 import com.deliverysl.luxurydelivery.allergen.model.Allergen;
+import com.deliverysl.luxurydelivery.allergen.repository.AllergenRepository;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import com.deliverysl.luxurydelivery.utils.BaseServiceImpl;
 import jakarta.transaction.Transactional;
@@ -18,6 +19,7 @@ import java.util.List;
 public class AllergenService extends BaseServiceImpl<Allergen, Long> {
 
     private final AllergenMapper mapper;
+    private final AllergenRepository allergenRepository;
 
     public Allergen findByIdOrThrow(Long id){
         return findOptionalById(id)
@@ -40,15 +42,31 @@ public class AllergenService extends BaseServiceImpl<Allergen, Long> {
                 }).orElseThrow(() -> new AllergenNotFoundException(id));
     }
 
+    @Transactional
     public void deleteAllergenById(Long id){
         Allergen allergen = findByIdOrThrow(id);
-
         // Desacomplamos con los helper los productos asociados a este alergeno
-        List<Product> productos = new ArrayList<>(allergen.getProductList());
-        for (Product p : productos) {
+        for (Product p : new ArrayList<>(allergen.getProductList())) {
             p.removeAllergen(allergen);
         }
+        allergen.setActivate(false);
+        save(allergen);
+    }
 
-        delete(allergen);
+    @Transactional
+    public Allergen activateAllergen(Long id){
+        Allergen allergen = findByIdOrThrow(id);
+        if (!allergen.isActivate()){
+            allergen.setActivate(true);
+            save(allergen);
+        }
+        return allergen;
+    }
+
+    public List<Allergen> findByActivateTrue(){
+        return allergenRepository.findByActivateTrue();
+    }
+    public List<Allergen> findByActivateFalse(){
+        return allergenRepository.findByActivateFalse();
     }
 }

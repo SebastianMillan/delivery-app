@@ -41,5 +41,28 @@ public class Category {
     )
     private List<Product> productList;
 
+    @Column(nullable = false)
+    private boolean activate;
 
+    //Metodos Helper
+
+    //Crea una categoría por defecto. Se usa cuando se crea un restaurante
+    public static Category categoryDefault(Restaurant restaurant){
+        return Category.builder()
+                .name("Sin categoría")
+                .description("Para productos sin categoría seleccionada")
+                .activate(true)
+                .restaurant(restaurant)
+                .build();
+    }
+
+    public void addProduct(Product product){
+        this.productList.add(product);
+        product.setCategory(this);
+    }
+
+    public void deleteProduct(Product product){
+        this.productList.remove(product);
+        product.setCategory(null);
+    }
 }

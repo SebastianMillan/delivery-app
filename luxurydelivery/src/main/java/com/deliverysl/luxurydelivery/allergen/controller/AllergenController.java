@@ -24,15 +24,9 @@ public class AllergenController implements AllergenControllerSwagger{
     @GetMapping
     public ResponseEntity<List<AllergenDTO>> findAll() {
         List<Allergen> allergens = service.findAll();
-        if(allergens.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok(
-                allergens.stream()
-                        .map(mapper::toDto)
-                        .toList()
-        );
+        return allergens.isEmpty() ?
+               ResponseEntity.noContent().build() :
+               ResponseEntity.ok(allergens.stream().map(mapper::toDto).toList());
     }
 
     @Override
@@ -60,4 +54,37 @@ public class AllergenController implements AllergenControllerSwagger{
         service.deleteAllergenById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Override
+    @PatchMapping("/{id:[0-9]+}/activate")
+    public ResponseEntity<AllergenDTO> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(mapper.toDto(service.activateAllergen(id)));
+    }
+
+    @Override
+    @GetMapping("/enable")
+    public ResponseEntity<List<AllergenDTO>> findByActivateTrue() {
+        List<Allergen> allergenList = service.findByActivateTrue();
+
+        return allergenList.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(allergenList.stream()
+                        .map(mapper::toDto)
+                        .toList());
+    }
+
+    @Override
+    @GetMapping("/disable")
+    public ResponseEntity<List<AllergenDTO>> findByActivateFalse() {
+
+        List<Allergen> allergenList = service.findByActivateFalse();
+
+        return allergenList.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(allergenList.stream()
+                        .map(mapper::toDto)
+                        .toList());
+    }
+
+
 }

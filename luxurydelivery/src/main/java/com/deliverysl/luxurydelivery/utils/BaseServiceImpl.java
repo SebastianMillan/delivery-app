@@ -1,14 +1,13 @@
 package com.deliverysl.luxurydelivery.utils;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
+public class BaseServiceImpl<T,ID> implements BaseService<T, ID> {
 
     @Autowired
     protected JpaRepository<T, ID> repository;

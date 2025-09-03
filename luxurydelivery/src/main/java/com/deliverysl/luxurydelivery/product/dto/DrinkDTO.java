@@ -2,14 +2,16 @@ package com.deliverysl.luxurydelivery.product.dto;
 
 import com.deliverysl.luxurydelivery.allergen.dto.ShortAllergenDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public record DrinkDTO(
         Long id,
         String name,
         String image,
-        double price,
+        BigDecimal price,
         String category,
         String drinkSize,
-        List<ShortAllergenDTO> allergenList
+        List<ShortAllergenDTO> allergenList,
+        boolean active
 ) {}

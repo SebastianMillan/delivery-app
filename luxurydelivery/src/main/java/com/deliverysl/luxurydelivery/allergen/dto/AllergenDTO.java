@@ -4,5 +4,6 @@ public record AllergenDTO(
         Long id,
         String name,
         String description,
-        String image
+        String image,
+        boolean activate
 ){}

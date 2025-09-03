@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -29,7 +28,8 @@ public class DrinkMapper {
                 drink.getDrinkSize().name(),
                 drink.getAllergensList().stream()
                         .map(allergenMapper::toShortDto)
-                        .toList()
+                        .toList(),
+                drink.isActivate()
         );
     }
 
@@ -42,6 +42,7 @@ public class DrinkMapper {
                 .category(category)
                 .allergensList(new ArrayList<>())
                 .drinkSize(DrinkSize.valueOf(drinkDTO.drinkSize()))
+                .activate(drinkDTO.active())
                 .build();
     }
 

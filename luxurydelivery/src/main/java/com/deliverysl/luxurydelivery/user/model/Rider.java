@@ -1,30 +1,31 @@
-package com.deliverysl.luxurydelivery.model;
+package com.deliverysl.luxurydelivery.user.model;
 
+import com.deliverysl.luxurydelivery.order.model.Order;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
-public class Client extends User {
+public class Rider extends User{
 
-    private String address;
-    private boolean active;
+    private String dni;
+    private String location;
 
     @OneToMany(
-            mappedBy = "client",
+            mappedBy = "rider",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Order>orderList;
+    private List<Order> orderList;
 
 }

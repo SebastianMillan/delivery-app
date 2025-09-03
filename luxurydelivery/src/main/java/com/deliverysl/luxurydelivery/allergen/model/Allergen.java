@@ -31,6 +31,9 @@ public class Allergen {
     )
     private List<Product>productList;
 
+    @Column(nullable = false)
+    private boolean activate;
+
 
 
 }
