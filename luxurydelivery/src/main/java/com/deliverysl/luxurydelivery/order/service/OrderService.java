@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.order.service;
 
+import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
 import com.deliverysl.luxurydelivery.order.dto.CreateOrderDTO;
 import com.deliverysl.luxurydelivery.order.dto.EditOrderDto;
 import com.deliverysl.luxurydelivery.order.exception.OrderNotFoundException;
@@ -60,7 +61,6 @@ public class OrderService extends BaseServiceImpl<Order,Long> {
         Order order = orderMapper.toEntity(createOrderDTO,employee,client,rider);
         order.setStateOrder(StateOrder.PENDING); // Estado inicial del pedido
         order.setCreateDate(LocalDateTime.now());
-        order.setActivate(true);
 
         for (CreateOrderlineDTO createOrderlineDTO: createOrderDTO.orderlineDTOList()){
             Orderline orderline = orderlineService.create(createOrderlineDTO);
@@ -92,15 +92,6 @@ public class OrderService extends BaseServiceImpl<Order,Long> {
     }
 
     @Transactional
-    public void deleteOrderById(Long id){
-
-        Order order = findByIdOrThrow(id);
-        order.setActivate(false);
-        save(order);
-
-    }
-
-    @Transactional
     public Orderline addOrderLine(Long idOrder,CreateOrderlineDTO createOrderlineDTO){
 
         Order order = findByIdOrThrow(idOrder);
@@ -115,13 +106,13 @@ public class OrderService extends BaseServiceImpl<Order,Long> {
     }
 
     @Transactional
-    public void deleteOrderline(Long idOrder,Long idOrderline){
+    public void deactiveOrderLineById(Long idOrder, Long idOrderline){
 
         Order order = findByIdOrThrow(idOrder);
         Orderline orderline = orderlineService.findByOrIdThrow(idOrderline);
         order.removeOrderline(orderline);
         order.calculateTotal();
-
+        deactivate(idOrderline);
         save(order);
 
     }
@@ -153,44 +144,27 @@ public class OrderService extends BaseServiceImpl<Order,Long> {
 
     }
 
-    @Transactional
-    public Order activate(Long id){
-        Order order = findByIdOrThrow(id);
-
-        if (!order.isActivate()){
-            order.setActivate(true);
-            save(order);
-        }
-        return order;
-
-    }
-
-    public List<Order> findByActivateTrue(){return orderRepository.findByActivateTrue();}
-
-    public List<Order> findByActivateFalse(){return orderRepository.findByActivateFalse();}
-
-    @Transactional
-    public Orderline activateOrderline(Long idOrder,Long idOrderline){
+    /*@Transactional
+    public Orderline toggleOrderline(Long idOrder,Long idOrderline){
 
         Order order = findByIdOrThrow(idOrder);
 
         Orderline orderline = order.getOrderlineList()
-                .stream().filter(ol->idOrderline.equals(ol.getId()))
+                .stream()
+                .filter(ol -> idOrderline.equals(ol.getId()))
                 .findFirst()
                 .orElseThrow(() -> new OrderlineNotFoundException(idOrderline));
 
-        if (!orderline.isActivate()){
-            orderline.setActivate(true);
-            save(order);
-        }
+        deactivate(orderline.getId());
 
-        return orderline;
+        save(order);
+
+        return  orderline;
+    }*/
+
+    public List<Orderline> findByAllOrderlinesActiveTrue(Long idOrder){
+        Order order = findByIdOrThrow(idOrder);
+
+        return order.getOrderlineList().stream().filter(ActivableEntity::isActive).toList();
     }
-
-    public List<Orderline> findByActivateTrueOrdeline(Long idOrder){return orderlineRepository.findByActivateTrueAndOrder_Id(idOrder);}
-
-    public List<Orderline> findByActivateFalseOrdeline(Long idOrder){return orderlineRepository.findByActivateFalseAndOrder_Id(idOrder);}
-
-
-
 }

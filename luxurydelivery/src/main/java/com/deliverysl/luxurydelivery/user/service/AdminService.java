@@ -25,7 +25,6 @@ public class AdminService extends BaseServiceImpl<Admin,Long> {
         }
 
         Admin admin = adminMapper.toEntity(createAdminDTO);
-        admin.setActivate(true);
         return save(admin);
     }
 

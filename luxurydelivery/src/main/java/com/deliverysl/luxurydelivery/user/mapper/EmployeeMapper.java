@@ -25,7 +25,7 @@ public class EmployeeMapper {
                 employee.getRestaurant().getName(),
                 employee.isBoss(),
                 employee.getOrderList().size(),
-                employee.isActivate()
+                employee.isActive()
         );
     }
 
@@ -38,7 +38,6 @@ public class EmployeeMapper {
                 .restaurant(restaurant)
                 .isBoss(employeeDTO.isBoss())
                 .orderList(new ArrayList<>())
-                .activate(employeeDTO.activate())
                 .build();
     }
 

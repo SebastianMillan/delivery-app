@@ -17,7 +17,7 @@ public class AllergenMapper {
                 allergen.getName(),
                 allergen.getDescription(),
                 allergen.getImage(),
-                allergen.isActivate()
+                allergen.isActive()
         );
     }
 
@@ -28,7 +28,6 @@ public class AllergenMapper {
                 .description(allergenDTO.description())
                 .image(allergenDTO.image())
                 .productList(new ArrayList<>())
-                .activate(allergenDTO.activate())
                 .build();
     }
 

@@ -29,7 +29,7 @@ public class DrinkMapper {
                 drink.getAllergensList().stream()
                         .map(allergenMapper::toShortDto)
                         .toList(),
-                drink.isActivate()
+                drink.isActive()
         );
     }
 
@@ -42,7 +42,6 @@ public class DrinkMapper {
                 .category(category)
                 .allergensList(new ArrayList<>())
                 .drinkSize(DrinkSize.valueOf(drinkDTO.drinkSize()))
-                .activate(drinkDTO.active())
                 .build();
     }
 

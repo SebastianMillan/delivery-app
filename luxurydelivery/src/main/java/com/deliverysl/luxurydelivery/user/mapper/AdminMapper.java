@@ -18,7 +18,7 @@ public class AdminMapper {
                 admin.getEmail(),
                 admin.getAvatar(),
                 admin.getPin(),
-                admin.isActivate()
+                admin.isActive()
         );
     }
 
@@ -29,7 +29,6 @@ public class AdminMapper {
                 .surnames(adminDTO.surnames())
                 .avatar(adminDTO.avatar())
                 .pin(adminDTO.pin())
-                .activate(adminDTO.activate())
                 .build();
     }
 

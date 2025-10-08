@@ -70,34 +70,24 @@ public class CategoryController
 
     @DeleteMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        categoryService.deleteCategoryById(id);
+    public ResponseEntity<?> deactivate(@PathVariable Long id){
+        categoryService.deactivateCategoryById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id:[0-9]+}/activate")
+    /*@DeleteMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<CategoryDTO> activate(@PathVariable Long id) {
-        return ResponseEntity.ok(categoryMapper.toDto(categoryService.activate(id)));
-    }
+    public ResponseEntity<CategoryDTO> toggle(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryMapper.toDto(categoryService.deactivate(id)));
+    }*/
 
     @GetMapping("/enable")
     @Override
-    public ResponseEntity<List<CategoryDTO>> findByActivateTrue() {
-        List<Category> categoryList = categoryService.findByActivateTrue();
+    public ResponseEntity<List<CategoryDTO>> findAllByActiveTrue() {
+        List<Category> categoryList = categoryService.findAllByActiveTrue();
         return categoryList.isEmpty() ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.ok(categoryList.stream().map(categoryMapper::toDto).toList());
     }
-
-    @GetMapping("/disable")
-    @Override
-    public ResponseEntity<List<CategoryDTO>> findByActivateFalse() {
-        List<Category> categoryList = categoryService.findByActivateFalse();
-        return categoryList.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(categoryList.stream().map(categoryMapper::toDto).toList());
-    }
-
 
 }

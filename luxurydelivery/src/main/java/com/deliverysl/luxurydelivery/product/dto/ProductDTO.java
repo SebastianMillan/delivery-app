@@ -12,5 +12,5 @@ public record ProductDTO(
         BigDecimal price,
         String category,
         List<ShortAllergenDTO> allergenList,
-        boolean activate
+        boolean active
 ){}

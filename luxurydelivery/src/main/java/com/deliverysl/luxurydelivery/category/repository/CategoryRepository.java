@@ -1,11 +1,8 @@
 package com.deliverysl.luxurydelivery.category.repository;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.common.repository.BaseRepository;
 
-import java.util.List;
+public interface CategoryRepository extends BaseRepository<Category, Long> {
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
-    List<Category> findByActivateTrue();
-    List<Category> findByActivateFalse();
 }

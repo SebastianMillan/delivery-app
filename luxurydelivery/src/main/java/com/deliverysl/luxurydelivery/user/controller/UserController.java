@@ -38,21 +38,21 @@ public class UserController
 
     @DeleteMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        userService.deleteUserById(id);
+    public ResponseEntity<?> deactive(@PathVariable Long id) {
+        userService.deactivate(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id:[0-9]+}/activate")
+    /*@PatchMapping("/{id:[0-9]+}/toggle")
     @Override
-    public ResponseEntity<UserDTO> activate(@PathVariable Long id) {
-        return ResponseEntity.ok(userMapper.toDto(userService.activateUser(id)));
-    }
+    public ResponseEntity<UserDTO> toggle(@PathVariable Long id) {
+        return ResponseEntity.ok(userMapper.toDto(userService.deactivate(id)));
+    }*/
 
     @GetMapping("/enable")
     @Override
-    public ResponseEntity<List<UserDTO>> findByActivateTrue() {
-        List<User> userList = userService.findByActivateTrue();
+    public ResponseEntity<List<UserDTO>> findAllByActivate() {
+        List<User> userList = userService.findAllByActiveTrue();
         return userList.isEmpty() ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.ok(userList.stream()
@@ -60,14 +60,4 @@ public class UserController
                         .toList());
     }
 
-    @GetMapping("/disable")
-    @Override
-    public ResponseEntity<List<UserDTO>> findByActivateFalse() {
-        List<User> userList = userService.findByActivateFalse();
-        return userList.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(userList.stream()
-                        .map(userMapper::toDto)
-                        .toList());
-    }
 }

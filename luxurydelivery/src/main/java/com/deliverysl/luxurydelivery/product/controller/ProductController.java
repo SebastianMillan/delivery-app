@@ -38,35 +38,26 @@ public class ProductController implements ProductControllerSwagger{
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        service.deleteProductById(id);
+    public ResponseEntity<?> deactive(@PathVariable Long id) {
+        service.deactiveProductById(id);
         return ResponseEntity.noContent().build();
     }
-    //No se si es mas correcto crear un dto especifico para pasarselo en el cuerpo o no
-    @PatchMapping("/{id:[0-9]+}/activate")
+    /*//No se si es mas correcto crear un dto especifico para pasarselo en el cuerpo o no
+    @PatchMapping("/{id:[0-9]+}/toggle")
     @Override
-    public ResponseEntity<ProductDTO> activate(@PathVariable Long id) {
-        return ResponseEntity.ok(mapper.toDto(service.activateProduct(id)));
-    }
+    public ResponseEntity<ProductDTO> toggle(@PathVariable Long id) {
+        return ResponseEntity.ok(mapper.toDto(service.deactivate(id)));
+    }*/
 
     @GetMapping("/enable")
     @Override
-    public ResponseEntity<List<ProductDTO>> findByActivateTrue() {
+    public ResponseEntity<List<ProductDTO>> findAllByActivateTrue() {
 
-        List<Product>restaurantList = service.findByActivateTrue();
-
-        return restaurantList.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(restaurantList.stream().map(mapper::toDto).toList());
-    }
-
-    @GetMapping("/disable")
-    @Override
-    public ResponseEntity<List<ProductDTO>> findByActivateFalse() {
-        List<Product>restaurantList = service.findByActivateFalse();
+        List<Product>restaurantList = service.findAllByActiveTrue();
 
         return restaurantList.isEmpty() ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.ok(restaurantList.stream().map(mapper::toDto).toList());
     }
+
 }

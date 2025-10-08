@@ -16,7 +16,7 @@ public class UserMapper {
                 user.getSurnames(),
                 user.getEmail(),
                 user.getAvatar(),
-                user.isActivate()
+                user.isActive()
         );
     }
 }

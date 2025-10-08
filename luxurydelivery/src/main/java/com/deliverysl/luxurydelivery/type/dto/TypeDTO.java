@@ -4,6 +4,6 @@ public record TypeDTO(
         Long id
         ,String name
         ,String description
-        ,boolean activate
+        ,boolean active
 ) {
 }

@@ -56,21 +56,21 @@ public interface ProductControllerSwagger {
     );
 
     @Operation(
-            summary = "Desactiva un producto",
-            description = "Desactiva un producto por su identificador. Devuelve 204 si se desactiva correctamente.",
+            summary = "Activa o desactiva un producto",
+            description = "Activa o desactiva un producto por su identificador. Devuelve 204 si se activa o desactiva correctamente.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?> delete(
+    ResponseEntity<?> deactive(
             @Parameter(description = "Identificador del producto", example = "1")
             Long id
     );
 
-    @Operation(
+    /*@Operation(
             summary = "Activa un producto",
-            description = "Activa un producto desactivado. Devuelve el recurso activado.",
+            description = "Activa o desactiva un producto. Devuelve el recurso activado o desactivado.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
@@ -81,7 +81,7 @@ public interface ProductControllerSwagger {
                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
             ),
     })
-    ResponseEntity<ProductDTO>activate(Long id);
+    ResponseEntity<ProductDTO>toggle(Long id);*/
 
     @Operation(
             summary = "Listado de productos activos",
@@ -95,19 +95,6 @@ public interface ProductControllerSwagger {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductDTO.class)))
             ),
     })
-    ResponseEntity<List<ProductDTO>> findByActivateTrue();
+    ResponseEntity<List<ProductDTO>> findAllByActivateTrue();
 
-    @Operation(
-            summary = "Listado de productos desactivados",
-            description = "Devuelve todos los productos activos. Si no hay resultados, responde 204.",
-            security = { @SecurityRequirement(name = "bearerAuth") }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Listado recuperado",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = ProductDTO.class)))
-            ),
-    })
-    ResponseEntity<List<ProductDTO>> findByActivateFalse();
 }

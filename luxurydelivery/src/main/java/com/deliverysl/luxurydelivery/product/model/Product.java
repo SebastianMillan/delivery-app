@@ -2,6 +2,7 @@ package com.deliverysl.luxurydelivery.product.model;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
 import com.deliverysl.luxurydelivery.allergen.model.Allergen;
+import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
@@ -32,7 +33,7 @@ import java.util.List;
         strategy = InheritanceType.JOINED
 )
 @Entity
-public abstract class Product{
+public abstract class Product extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -59,9 +60,6 @@ public abstract class Product{
             inverseJoinColumns = @JoinColumn(name = "allergen_id")
     )
     protected List<Allergen> allergensList;
-
-    @Column(nullable = false)
-    protected boolean activate;
 
     // Los métodos helper ayudan a acomplar o desacomplar relaciones bidireccionales entre entidades
     public void addAllergen(Allergen allergen){

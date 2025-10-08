@@ -1,26 +1,24 @@
 package com.deliverysl.luxurydelivery.restaurant.service;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
+import com.deliverysl.luxurydelivery.common.DefaultsIds;
 import com.deliverysl.luxurydelivery.restaurant.dto.CreateRestaurandDTO;
 import com.deliverysl.luxurydelivery.restaurant.exception.RestaurantNotFoundException;
 import com.deliverysl.luxurydelivery.restaurant.mapper.RestaurantMapper;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
-import com.deliverysl.luxurydelivery.restaurant.repository.RestaurantRepository;
 import com.deliverysl.luxurydelivery.type.model.Type;
 import com.deliverysl.luxurydelivery.type.service.TypeService;
+import com.deliverysl.luxurydelivery.user.model.Employee;
 import com.deliverysl.luxurydelivery.utils.BaseServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
 
     private final TypeService typeService;
-    private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
 
     public Restaurant findByIdOrThrow(Long id){
@@ -34,19 +32,26 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
         Type type = typeService.findByName(createRestaurandDTO.type());
 
         Restaurant restaurant = restaurantMapper.toEntity(createRestaurandDTO,type);
-        restaurant.setActivate(true);
+        restaurant.setActive(true);
 
         type.addRestaurant(restaurant);
 
         //el restaurante que se cree tendrá un categoría por defecto
-        Category category = Category.categoryDefault(restaurant);
-        restaurant.addCategory(category);
+        Category category = Category.builder()
+                .name("Sin categoría")
+                .description("Para productos sin categoría seleccionada")
+                .restaurant(restaurant)
+                .build();
 
+        restaurant.addCategory(category);
+        
         return save(restaurant);
     }
 
     @Transactional
     public Restaurant edit(CreateRestaurandDTO createRestaurandDTO,Long id){
+
+        if (id == DefaultsIds.DEFAULT_RESTAURANT_ID){throw new RestaurantNotFoundException(id);}
 
         Type type = typeService.findByName(createRestaurandDTO.type());
         Restaurant restaurant = findByIdOrThrow(id);
@@ -60,28 +65,20 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
     }
 
     @Transactional
-    public void deleteRestaurantById(Long id){
+    public void deactiveRestaurantById(Long id){
+
+        if (id == DefaultsIds.DEFAULT_RESTAURANT_ID){throw new RestaurantNotFoundException(id);}
+
+        Restaurant defaultRestaurant = findByIdOrThrow(DefaultsIds.DEFAULT_RESTAURANT_ID);
         Restaurant restaurant = findByIdOrThrow(id);
-        restaurant.setActivate(false);
-        save(restaurant);
-    }
 
-    @Transactional
-    public Restaurant activateRestaurant(Long id){
-        Restaurant restaurant = findByIdOrThrow(id);
-        if (!restaurant.isActivate()){
-            restaurant.setActivate(true);
-            save(restaurant);
-        };
-        return restaurant;
-    }
+        defaultRestaurant.getEmployeeList().addAll(restaurant.getEmployeeList());
 
-    public List<Restaurant> findByActivateTrue(){
-        return restaurantRepository.findByActivateTrue();
-    }
+        for(Employee employee:restaurant.getEmployeeList()){
+            employee.setRestaurant(defaultRestaurant);
+        }
 
-    public List<Restaurant> findByActivateFalse(){
-        return restaurantRepository.findByActivateFalse();
+        save(defaultRestaurant);
+        deactivate(id);
     }
-
 }

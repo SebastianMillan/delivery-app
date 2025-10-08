@@ -1,13 +1,10 @@
 package com.deliverysl.luxurydelivery.orderline.repository;
 
 import com.deliverysl.luxurydelivery.orderline.model.Orderline;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.common.repository.BaseRepository;
 
 import java.util.List;
 
-public interface OrderlineRepository extends JpaRepository<Orderline,Long> {
-
-    List<Orderline> findByActivateTrueAndOrder_Id(Long idOrder);
-    List<Orderline> findByActivateFalseAndOrder_Id(Long idOrder);
+public interface OrderlineRepository extends BaseRepository<Orderline,Long> {
 
 }

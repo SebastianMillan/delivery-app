@@ -7,6 +7,6 @@ public record RiderDTO(
         String email,
         String dni,
         String location,
-        boolean activate
+        boolean active
 ) {
 }

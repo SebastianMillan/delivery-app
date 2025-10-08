@@ -8,6 +8,6 @@ public record EmployeeDTO(
         String restaurantName,
         boolean isBoss,
         int orderlistNumber,
-        boolean activate
+        boolean active
 ) {
 }

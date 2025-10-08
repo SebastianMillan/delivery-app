@@ -6,6 +6,6 @@ public record UserDTO(
         String surnames,
         String email,
         String avatar,
-        boolean activate
+        boolean active
 ) {
 }

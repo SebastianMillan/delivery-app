@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.allergen.model;
 
+import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Allergen {
+public class Allergen extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -30,10 +31,5 @@ public class Allergen {
             mappedBy = "allergensList"
     )
     private List<Product>productList;
-
-    @Column(nullable = false)
-    private boolean activate;
-
-
 
 }

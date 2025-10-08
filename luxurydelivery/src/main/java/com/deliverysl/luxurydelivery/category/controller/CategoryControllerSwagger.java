@@ -98,21 +98,21 @@ public interface CategoryControllerSwagger {
     );
 
     @Operation(
-            summary = "Desactiva una categoría",
-            description = "Desactiva una categoría por su identificador. Responde 204 si se desactiva.",
+            summary = "Activa o desactiva una categoría",
+            description = "Activa o desactiva una categoría. Responde 204 si se activa o desactiva.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?> delete(
+    ResponseEntity<?> deactivate(
             @Parameter(description = "Identificador del alérgeno", example = "1")
             Long id
     );
 
-    @Operation(
-            summary = "Activa una categoría",
-            description = "Activa una categoría desactivada. Devuelve el recurso activado.",
+    /*@Operation(
+            summary = "Activa o desactiva una categoría",
+            description = "Activa o desactiva una categoría. Devuelve el recurso activado o desactivado.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
@@ -123,10 +123,10 @@ public interface CategoryControllerSwagger {
                     content = @Content(schema = @Schema(implementation = CategoryDTO.class))
             ),
     })
-    ResponseEntity<CategoryDTO>activate(
+    ResponseEntity<CategoryDTO>toggle(
             @Parameter(description = "Identificador del alérgeno", example = "1")
             Long id
-    );
+    );*/
 
     @Operation(
             summary = "Listado de categorías activas",
@@ -140,20 +140,6 @@ public interface CategoryControllerSwagger {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDTO.class)))
             ),
     })
-    ResponseEntity<List<CategoryDTO>> findByActivateTrue();
-
-    @Operation(
-            summary = "Listado de categorías desactivadas",
-            description = "Devuelve todas las categorías desactivadas. Si no hay resultados, responde 204.",
-            security = { @SecurityRequirement(name = "bearerAuth") }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Listado recuperado",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = CategoryDTO.class)))
-            ),
-    })
-    ResponseEntity<List<CategoryDTO>> findByActivateFalse();
+    ResponseEntity<List<CategoryDTO>> findAllByActiveTrue();
 
 }

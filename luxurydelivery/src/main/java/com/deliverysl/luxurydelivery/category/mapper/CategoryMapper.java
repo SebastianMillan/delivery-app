@@ -14,7 +14,6 @@ public class CategoryMapper {
                 .id(categoryDTO.id())
                 .name(categoryDTO.name())
                 .description(categoryDTO.description())
-                .activate(categoryDTO.activate())
                 .build();
     }
 
@@ -23,7 +22,7 @@ public class CategoryMapper {
                 category.getId(),
                 category.getName(),
                 category.getDescription(),
-                category.isActivate()
+                category.isActive()
         );
     }
 

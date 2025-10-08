@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.user.model;
 
+import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
@@ -31,7 +32,7 @@ import lombok.experimental.SuperBuilder;
 @Table(
         name = "usuario"
 )
-public abstract class User {
+public abstract class User extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -45,7 +46,5 @@ public abstract class User {
     private String email;
     private String password;
     private String avatar;
-
-    private boolean activate;
 
 }

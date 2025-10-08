@@ -100,21 +100,21 @@ public interface TypeControllerSwagger {
     );
 
     @Operation(
-            summary = "Desactiva un tipo",
-            description = "Desactiva un tipo por su identificador. Responde 204 si se desactiva.",
+            summary = "Activa o desactiva un tipo",
+            description = "Activa o desactiva un tipo por su identificador. Responde 204 si se activa o desactiva.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?>delete(
+    ResponseEntity<?>deactive(
             @Parameter(description = "Identificador del tipo", example = "1")
             Long id
     );
-
+    /*
     @Operation(
-            summary = "Activa un tipo",
-            description = "Activa un tipo desactivado. Devuelve el recurso activado.",
+            summary = "Activa o desactiva un tipo",
+            description = "Activa o desactiva un tipo. Devuelve el recurso activado o desactivado.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
@@ -125,10 +125,10 @@ public interface TypeControllerSwagger {
                     content = @Content(schema = @Schema(implementation = TypeDTO.class))
             ),
     })
-    ResponseEntity<TypeDTO>activate(
+    ResponseEntity<TypeDTO>toggle(
             @Parameter(description = "Identificador del tipo", example = "1")
             Long id
-    );
+    );*/
 
     @Operation(
             summary = "Listado de tipos activos",
@@ -142,19 +142,5 @@ public interface TypeControllerSwagger {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = TypeDTO.class)))
             ),
     })
-    ResponseEntity<List<TypeDTO>> findByActivateTrue();
-
-    @Operation(
-            summary = "Listado de tipos desactivados",
-            description = "Devuelve todos los tipos desactivados. Si no hay resultados, responde 204.",
-            security = { @SecurityRequirement(name = "bearerAuth") }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Listado recuperado",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = TypeDTO.class)))
-            ),
-    })
-    ResponseEntity<List<TypeDTO>> findByActivateFalse();
+    ResponseEntity<List<TypeDTO>> findAllByActivate();
 }

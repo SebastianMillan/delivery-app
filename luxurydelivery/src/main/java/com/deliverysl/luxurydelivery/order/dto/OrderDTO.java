@@ -15,6 +15,6 @@ public record OrderDTO(
         String nameEmploye,
         String nameClient,
         String nameRider,
-        boolean activate
+        boolean active
 ) {
 }

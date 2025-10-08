@@ -33,12 +33,11 @@ public class FoodService extends BaseServiceImpl<Food, Long> {
                 .toList();
 
         Food food = mapper.toEntity(createFoodDTO, category);
-        food.setActivate(true);
         category.addProduct(food);
 
         // Agregamos con los helper los alergenos a este Food
         allergenList.forEach(allergen -> {
-            if (allergen.isActivate()){
+            if (allergen.isActive()){
                 food.addAllergen(allergen);
             }
         });

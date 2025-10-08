@@ -7,6 +7,6 @@ public record AdminDTO(
         String email,
         String avatar,
         String pin,
-        boolean activate
+        boolean active
 ) {
 }

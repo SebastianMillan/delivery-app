@@ -1,7 +1,7 @@
 package com.deliverysl.luxurydelivery.user.repository;
 
 import com.deliverysl.luxurydelivery.user.model.Employee;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.common.repository.BaseRepository;
 
-public interface EmployeeRepository extends JpaRepository<Employee,Long> {
+public interface EmployeeRepository extends BaseRepository<Employee,Long> {
 }

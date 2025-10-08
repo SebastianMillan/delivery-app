@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,32 +24,14 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
     }
 
     @Transactional
-    public void deleteProductById(Long id){
+    public void deactiveProductById(Long id){
         Product product = findByIdOrThrow(id);
         // Desacomplamos con los helper los allergenos asociados a este producto
         for (Allergen allergen: new ArrayList<>(product.getAllergensList())){
             product.removeAllergen(allergen);
         }
-
-        product.setActivate(false);
         save(product);
-    }
-
-    @Transactional
-    public Product activateProduct(Long id){
-        Product product = findByIdOrThrow(id);
-        if (!product.isActivate()){
-            product.setActivate(true);
-            save(product);
-        }
-        return product;
-    }
-
-    public List<Product> findByActivateTrue(){
-        return productRepository.findByActivateTrue();
-    }
-    public List<Product> findByActivateFalse(){
-        return productRepository.findByActivateFalse();
+        deactivate(id);
     }
 
 }

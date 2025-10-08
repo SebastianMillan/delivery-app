@@ -38,12 +38,11 @@ public class DrinkService extends BaseServiceImpl<Drink, Long> {
                 .toList();
 
         Drink drink = mapper.toEntity(createDrinkDTO, category);
-        drink.setActivate(true);
         category.addProduct(drink);
 
         // Agregamos con los helper los alergenos a este Drink
         allergenList.forEach(allergen -> {
-            if (allergen.isActivate()){
+            if (allergen.isActive()){
                 drink.addAllergen(allergen);
             }
         });

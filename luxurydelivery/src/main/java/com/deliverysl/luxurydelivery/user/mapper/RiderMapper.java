@@ -18,7 +18,7 @@ public class RiderMapper {
                 rider.getEmail(),
                 rider.getDni(),
                 rider.getLocation(),
-                rider.isActivate()
+                rider.isActive()
         );
     }
 
@@ -30,7 +30,6 @@ public class RiderMapper {
                 .email(riderDTO.email())
                 .dni(riderDTO.dni())
                 .location(riderDTO.location())
-                .activate(riderDTO.activate())
                 .build();
     }
 

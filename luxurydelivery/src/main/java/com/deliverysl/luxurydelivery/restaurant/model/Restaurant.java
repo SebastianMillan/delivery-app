@@ -1,6 +1,7 @@
 package com.deliverysl.luxurydelivery.restaurant.model;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
+import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
 import com.deliverysl.luxurydelivery.user.model.Employee;
 import com.deliverysl.luxurydelivery.type.model.Type;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Restaurant {
+public class Restaurant extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -51,9 +52,6 @@ public class Restaurant {
     )
     private List<Category> categoryList;
 
-    @Column(nullable = false)
-    private boolean activate;
-
     public void addCategory(Category category){
         this.categoryList.add(category);
         category.setRestaurant(this);
@@ -63,5 +61,7 @@ public class Restaurant {
         this.categoryList.remove(category);
         category.setRestaurant(null);
     }*/
+
+
 
 }

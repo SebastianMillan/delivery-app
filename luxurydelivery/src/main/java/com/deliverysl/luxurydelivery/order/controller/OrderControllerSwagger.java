@@ -99,21 +99,21 @@ public interface OrderControllerSwagger {
     );
 
     @Operation(
-            summary = "Desactiva un pedido",
-            description = "Desactiva un pedido por su identificador. Responde 204 si se desactiva.",
+            summary = "Activa o desactiva un pedido",
+            description = "Activa o desactiva un pedido por su identificador. Responde 204 si se activa o desactiva.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?> delete(
+    ResponseEntity<?> deactive(
             @Parameter(description = "Identificador del pedido", example = "1")
             Long id
     );
 
-    @Operation(
-            summary = "Activa un pedido",
-            description = "Activa un pedido desactivado. Devuelve el recurso activado.",
+    /*@Operation(
+            summary = "Activa o desactiva un pedido",
+            description = "Activa o desactiva un pedido. Devuelve el recurso activado o desactivado.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
@@ -124,10 +124,10 @@ public interface OrderControllerSwagger {
                     content = @Content(schema = @Schema(implementation = OrderDTO.class))
             ),
     })
-    ResponseEntity<OrderDTO> activate(
+    ResponseEntity<OrderDTO> toggle(
             @Parameter(description = "Identificador del pedido",example = "1")
             Long id
-    );
+    );*/
 
     @Operation(
             summary = "Listado de pedido activos",
@@ -141,20 +141,7 @@ public interface OrderControllerSwagger {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
             ),
     })
-    ResponseEntity<List<OrderDTO>> findByActivateTrue();
+    ResponseEntity<List<OrderDTO>> findAllByActivateTrue();
 
-    @Operation(
-            summary = "Listado de pedido desactivados",
-            description = "Devuelve todos los pedido desactivados. Si no hay resultados, responde 204.",
-            security = { @SecurityRequirement(name = "bearerAuth") }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Listado recuperado",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
-            ),
-    })
-    ResponseEntity<List<OrderDTO>> findByActivateFalse();
 }
 

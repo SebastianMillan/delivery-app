@@ -56,37 +56,26 @@ public class RestaurantController
 
     @DeleteMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<?>delete(@PathVariable Long id){
-       restaurantService.deleteRestaurantById(id);
+    public ResponseEntity<?>deactivate(@PathVariable Long id){
+       restaurantService.deactiveRestaurantById(id);
        return ResponseEntity.ok().build();
     }
 
-    //No se si es mas correcto crear un dto especifico para pasarselo en el cuerpo o no
-    @PatchMapping("/{id:[0-9]+}/activate")
+    /*//No se si es mas correcto crear un dto especifico para pasarselo en el cuerpo o no
+    @DeleteMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<RestaurantDTO> activate(@PathVariable Long id) {
-        return ResponseEntity.ok(restaurantMapper.toDto(restaurantService.activateRestaurant(id)));
-    }
+    public ResponseEntity<RestaurantDTO> deactivate(@PathVariable Long id) {
+        return ResponseEntity.ok(restaurantMapper.toDto(restaurantService.deactivate(id)));
+    }*/
 
     @GetMapping("/enable")
     @Override
-    public ResponseEntity<List<RestaurantDTO>> findByActivateTrue() {
+    public ResponseEntity<List<RestaurantDTO>> findAllByActiveTrue() {
 
-        List<Restaurant>restaurantList = restaurantService.findByActivateTrue();
-
-        return restaurantList.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(restaurantList.stream().map(restaurantMapper::toDto).toList());
-    }
-
-    @GetMapping("/disable")
-    @Override
-    public ResponseEntity<List<RestaurantDTO>> findByActivateFalse() {
-        List<Restaurant>restaurantList = restaurantService.findByActivateFalse();
+        List<Restaurant>restaurantList = restaurantService.findAllByActiveTrue();
 
         return restaurantList.isEmpty() ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.ok(restaurantList.stream().map(restaurantMapper::toDto).toList());
     }
-
 }

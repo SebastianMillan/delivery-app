@@ -8,8 +8,6 @@ import com.deliverysl.luxurydelivery.utils.BaseServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +23,6 @@ public class ClientService extends BaseServiceImpl<Client,Long> {
         }
 
         Client client =  clientMapper.toEntity(createClientDTO);
-        client.setActivate(true);
         return save(client);
     }
 

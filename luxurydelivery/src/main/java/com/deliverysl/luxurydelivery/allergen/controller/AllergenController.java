@@ -50,21 +50,21 @@ public class AllergenController implements AllergenControllerSwagger{
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        service.deleteAllergenById(id);
+    public ResponseEntity<?> deactive(@PathVariable Long id) {
+        service.deactiveAllergenById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @Override
-    @PatchMapping("/{id:[0-9]+}/activate")
-    public ResponseEntity<AllergenDTO> activate(@PathVariable Long id) {
-        return ResponseEntity.ok(mapper.toDto(service.activateAllergen(id)));
-    }
+    /*@Override
+    @DeleteMapping("/{id:[0-9]+}")
+    public ResponseEntity<AllergenDTO> toggle(@PathVariable Long id) {
+        return ResponseEntity.ok(mapper.toDto(service.deactivate(id)));
+    }*/
 
     @Override
     @GetMapping("/enable")
-    public ResponseEntity<List<AllergenDTO>> findByActivateTrue() {
-        List<Allergen> allergenList = service.findByActivateTrue();
+    public ResponseEntity<List<AllergenDTO>> findAllByActiveTrue() {
+        List<Allergen> allergenList = service.findAllByActiveTrue();
 
         return allergenList.isEmpty() ?
                 ResponseEntity.noContent().build() :
@@ -72,19 +72,5 @@ public class AllergenController implements AllergenControllerSwagger{
                         .map(mapper::toDto)
                         .toList());
     }
-
-    @Override
-    @GetMapping("/disable")
-    public ResponseEntity<List<AllergenDTO>> findByActivateFalse() {
-
-        List<Allergen> allergenList = service.findByActivateFalse();
-
-        return allergenList.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(allergenList.stream()
-                        .map(mapper::toDto)
-                        .toList());
-    }
-
 
 }

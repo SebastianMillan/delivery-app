@@ -32,7 +32,7 @@ public class OrderMapper {
                 order.getEmployee().getName(),
                 order.getClient().getName(),
                 order.getRider().getName(),
-                order.isActivate()
+                order.isActive()
         );
 
     }
@@ -44,7 +44,6 @@ public class OrderMapper {
                 .createDate(orderDTO.dateTime())
                 .total(orderDTO.total())
                 .orderlineList(new ArrayList<>())
-                .activate(orderDTO.activate())
                 .employee(employee)
                 .client(client)
                 .rider(rider)

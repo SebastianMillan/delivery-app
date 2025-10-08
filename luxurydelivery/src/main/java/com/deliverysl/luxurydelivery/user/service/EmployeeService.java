@@ -27,7 +27,6 @@ public class EmployeeService extends BaseServiceImpl<Employee,Long> {
 
         Restaurant restaurant = restaurantService.findByIdOrThrow(createEmployeeDTO.idRestaurant());
         Employee employee = employeeMapper.toEntity(createEmployeeDTO,restaurant);
-        employee.setActivate(true);
         return save(employee);
 
     }

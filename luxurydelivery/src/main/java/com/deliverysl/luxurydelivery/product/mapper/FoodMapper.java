@@ -29,7 +29,7 @@ public class FoodMapper {
                 food.getAllergensList().stream()
                         .map(allergenMapper::toShortDto)
                         .toList(),
-                food.isActivate()
+                food.isActive()
         );
     }
 
@@ -42,7 +42,6 @@ public class FoodMapper {
                 .category(category)
                 .calories(foodDTO.calories())
                 .allergensList(new ArrayList<>())
-                .activate(foodDTO.active())
                 .build();
     }
 

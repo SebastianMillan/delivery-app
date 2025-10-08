@@ -56,21 +56,21 @@ public interface UserControllerSwagger {
     );
 
     @Operation(
-            summary = "Desactiva un usuario",
-            description = "Desactiva un usuario por su identificador. Devuelve 204 si se desactiva correctamente.",
+            summary = "Activa o desactiva un usuario",
+            description = "Activa o desactiva un usuario por su identificador. Devuelve 204 si se activa o desactiva correctamente.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?>delete(
+    ResponseEntity<?>deactive(
             @Parameter(description = "Identificador del producto", example = "1")
             Long id
     );
 
-    @Operation(
-            summary = "Activa un usuario",
-            description = "Activa un usuario desactivado. Devuelve el recurso activado.",
+    /*@Operation(
+            summary = "Activa o desactiva un usuario",
+            description = "Activa o desactiva un usuario. Devuelve el recurso activado o desactivado.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
@@ -81,10 +81,10 @@ public interface UserControllerSwagger {
                     content = @Content(schema = @Schema(implementation = UserDTO.class))
             ),
     })
-    ResponseEntity<UserDTO> activate(
+    ResponseEntity<UserDTO> toggle(
             @Parameter(description = "Identificador del producto", example = "1")
             Long id
-    );
+    );*/
 
     @Operation(
             summary = "Listado de usuarios activos",
@@ -98,20 +98,6 @@ public interface UserControllerSwagger {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserDTO.class)))
             ),
     })
-    ResponseEntity<List<UserDTO>> findByActivateTrue();
-
-    @Operation(
-            summary = "Listado de usuarios desactivados",
-            description = "Devuelve todos los usuarios desactivados. Si no hay resultados, responde 204.",
-            security = { @SecurityRequirement(name = "bearerAuth") }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Listado recuperado",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = UserDTO.class)))
-            ),
-    })
-    ResponseEntity<List<UserDTO>> findByActivateFalse();
+    ResponseEntity<List<UserDTO>> findAllByActivate();
 
 }

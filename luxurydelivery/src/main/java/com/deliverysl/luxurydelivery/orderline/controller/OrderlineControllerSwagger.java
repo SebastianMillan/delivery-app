@@ -105,23 +105,23 @@ public interface OrderlineControllerSwagger {
     );
 
     @Operation(
-            summary = "Desactiva una linea de pedido de un pedido",
-            description = "Desactiva una linea de pedido de un pedido por su identificador. Responde 204 si se desactiva.",
+            summary = "Activa o desactiva una linea de pedido de un pedido",
+            description = "Activa o desactiva una linea de pedido de un pedido por su identificador. Responde 204 si se activa o desactiva.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?> delete(
+    ResponseEntity<?> deactive(
             @Parameter(description = "Identificador del pedido", example = "1")
             Long orderId,
             @Parameter(description = "Identificador de la linea de pedido", example = "1")
             Long orderlineId
     );
 
-    @Operation(
-            summary = "Activa una linea de pedido de un pedido",
-            description = "Activa una linea de pedido desactivado de un pedido. Devuelve el recurso activado.",
+    /*@Operation(
+            summary = "Activa o desactiva una linea de pedido de un pedido",
+            description = "Activa o desactiva una linea de pedido de un pedido. Devuelve el recurso activado o desactivado.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
@@ -132,12 +132,12 @@ public interface OrderlineControllerSwagger {
                     content = @Content(schema = @Schema(implementation = OrderlineDTO.class))
             ),
     })
-    ResponseEntity<OrderlineDTO> activate(
+    ResponseEntity<OrderlineDTO> toggle(
             @Parameter(description = "Identificador del pedido", example = "1")
             Long orderId,
             @Parameter(description = "Identificador de la linea de pedido", example = "1")
             Long orderlineId
-    );
+    );*/
 
     @Operation(
             summary = "Listado de lineas de pedidos activos de un pedido",
@@ -151,25 +151,10 @@ public interface OrderlineControllerSwagger {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderlineDTO.class)))
             ),
     })
-    ResponseEntity<List<OrderlineDTO>> findByActivateTrue(
+    ResponseEntity<List<OrderlineDTO>> findByAllOrderlinesActiveTrue(
             @Parameter(description = "Identificador del pedido", example = "1")
             Long orderId
     );
 
-    @Operation(
-            summary = "Listado de lineas de pedidos desactivados de un pedido",
-            description = "Devuelve todas las lineas de pedidos desactivados de un pedido. Si no hay resultados, responde 204.",
-            security = { @SecurityRequirement(name = "bearerAuth") }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Listado recuperado",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderlineDTO.class)))
-            ),
-    })
-    ResponseEntity<List<OrderlineDTO>> findByActivateFalse(
-            @Parameter(description = "Identificador del pedido", example = "1")
-            Long orderId
-    );
+
 }

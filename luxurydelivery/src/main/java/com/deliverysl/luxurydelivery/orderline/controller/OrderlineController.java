@@ -65,34 +65,21 @@ public class OrderlineController implements OrderlineControllerSwagger {
 
     @DeleteMapping("/{orderlineId}")
     @Override
-    public ResponseEntity<?> delete(@PathVariable Long orderId,@PathVariable Long orderlineId) {
-        orderService.deleteOrderline(orderId,orderlineId);
+    public ResponseEntity<?> deactive(@PathVariable Long orderId,@PathVariable Long orderlineId) {
+        orderService.deactiveOrderLineById(orderId,orderlineId);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{orderlineId:[0-9]+}/activate")
+    /*@PatchMapping("/{orderlineId:[0-9]+}/toggle")
     @Override
-    public ResponseEntity<OrderlineDTO> activate(@PathVariable Long orderId,@PathVariable Long orderlineId) {
-        return ResponseEntity.ok(orderlineMapper.toDto(orderService.activateOrderline(orderId,orderlineId)));
-    }
-
+    public ResponseEntity<OrderlineDTO> toggle(@PathVariable Long orderId,@PathVariable Long orderlineId) {
+        return ResponseEntity.ok(orderlineMapper.toDto(orderService.toggleOrderline(orderId,orderlineId)));
+    }*/
 
     @GetMapping("/enable")
     @Override
-    public ResponseEntity<List<OrderlineDTO>> findByActivateTrue(@PathVariable Long orderId) {
-        List<Orderline> orderlineList = orderService.findByActivateTrueOrdeline(orderId);
-
-        return orderlineList.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(orderlineList.stream()
-                        .map(orderlineMapper::toDto)
-                        .toList());
-    }
-
-    @GetMapping("/disable")
-    @Override
-    public ResponseEntity<List<OrderlineDTO>> findByActivateFalse(@PathVariable Long orderId) {
-        List<Orderline> orderlineList = orderService.findByActivateFalseOrdeline(orderId);
+    public ResponseEntity<List<OrderlineDTO>> findByAllOrderlinesActiveTrue(@PathVariable Long orderId) {
+        List<Orderline> orderlineList = orderService.findByAllOrderlinesActiveTrue(orderId);
 
         return orderlineList.isEmpty() ?
                 ResponseEntity.noContent().build() :

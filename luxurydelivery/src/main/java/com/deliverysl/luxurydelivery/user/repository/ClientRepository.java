@@ -1,7 +1,7 @@
 package com.deliverysl.luxurydelivery.user.repository;
 
 import com.deliverysl.luxurydelivery.user.model.Client;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.common.repository.BaseRepository;
 
-public interface ClientRepository extends JpaRepository<Client,Long> {
+public interface ClientRepository extends BaseRepository<Client,Long> {
 }

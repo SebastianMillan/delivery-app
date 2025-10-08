@@ -98,21 +98,21 @@ public interface RestaurantControllerSwagger {
     );
 
     @Operation(
-            summary = "Desactiva un restaurante",
-            description = "Desactiva un restaurante por su identificador. Responde 204 si se desactiva.",
+            summary = "Activa o desactiva un restaurante",
+            description = "Desactiva un restaurante por su identificador. Responde 204 si se activa o desactiva.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?>delete(
+    ResponseEntity<?>deactivate(
             @Parameter(description = "Identificador del restaurante", example = "1")
             Long id
     );
 
-    @Operation(
-            summary = "Activa un restaurante",
-            description = "Activa un restaurante desactivado. Devuelve el recurso activado.",
+    /*@Operation(
+            summary = "Activa o desactiva un restaurante",
+            description = "Activa o desactiva un restaurante. Devuelve el recurso activado o desactivado.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
@@ -123,10 +123,10 @@ public interface RestaurantControllerSwagger {
                     content = @Content(schema = @Schema(implementation = RestaurantDTO.class))
             ),
     })
-    ResponseEntity<RestaurantDTO>activate(
+    ResponseEntity<RestaurantDTO>deactivate(
             @Parameter(description = "Identificador del restaurante", example = "1")
             Long id
-    );
+    );*/
 
     @Operation(
             summary = "Listado de restaurantes activos",
@@ -140,19 +140,6 @@ public interface RestaurantControllerSwagger {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = RestaurantDTO.class)))
             ),
     })
-    ResponseEntity<List<RestaurantDTO>> findByActivateTrue();
+    ResponseEntity<List<RestaurantDTO>> findAllByActiveTrue();
 
-    @Operation(
-            summary = "Listado de restaurantes desactivados",
-            description = "Devuelve todos los restaurantes desactivados. Si no hay resultados, responde 204.",
-            security = { @SecurityRequirement(name = "bearerAuth") }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Listado recuperado",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = RestaurantDTO.class)))
-            ),
-    })
-    ResponseEntity<List<RestaurantDTO>> findByActivateFalse();
 }

@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.order.model;
 
+import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
 import com.deliverysl.luxurydelivery.user.model.Client;
 import com.deliverysl.luxurydelivery.user.model.Employee;
 import com.deliverysl.luxurydelivery.user.model.Rider;
@@ -22,7 +23,7 @@ import java.util.List;
 @Table(
         name = "orders"
 )
-public class Order{
+public class Order extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -55,18 +56,13 @@ public class Order{
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @Column(nullable = false)
-    private boolean activate;
-
-
-
     //Metodos helpers
 
     public void calculateTotal(){
         if (!orderlineList.isEmpty()){
             this.total = BigDecimal.ZERO;
             orderlineList.forEach(orderline ->{
-                if (orderline.isActivate()){
+                if (orderline.isActive()){
                     this.total = this.total.add(orderline.getSubtotal());
                 }
             });
@@ -76,14 +72,14 @@ public class Order{
     public void addOrderline(Orderline orderline){
         this.orderlineList.add(orderline);
         orderline.setOrder(this);
-        orderline.setActivate(true);
+        orderline.setActive(true);
     }
 
     public void removeOrderline(Orderline orderline){
         this.orderlineList.stream()
                 .filter(ol->ol.getId().equals(orderline.getId()))
                 .findFirst()
-                .ifPresent(ol->ol.setActivate(false));
+                .ifPresent(ol->ol.setActive(false));
     }
 
 }

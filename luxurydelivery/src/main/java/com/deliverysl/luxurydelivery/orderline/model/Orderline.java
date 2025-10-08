@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.orderline.model;
 
+import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
 import com.deliverysl.luxurydelivery.order.model.Order;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Orderline{
+public class Orderline extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -37,9 +38,6 @@ public class Orderline{
             name = "orders_id"
     )
     private Order order;
-
-    @Column(nullable = false)
-    private boolean activate;
 
     //Metodo Helper
     public void calculateSubtotal(){

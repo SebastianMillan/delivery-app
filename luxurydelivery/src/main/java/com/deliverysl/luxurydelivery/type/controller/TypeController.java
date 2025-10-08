@@ -54,33 +54,23 @@ public class TypeController
 
     @DeleteMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        typeService.deleteTypeById(id);
+    public ResponseEntity<?> deactive(@PathVariable Long id){
+        typeService.deactiveTypeById(id);
         return ResponseEntity.noContent().build();
     }
 
-    //No se si es mas correcto crear un dto especifico para pasarselo en el cuerpo o no
-    @PatchMapping("/{id:[0-9]+}/activate")
+    /*//No se si es mas correcto crear un dto especifico para pasarselo en el cuerpo o no
+    @PatchMapping("/{id:[0-9]+}/toggle")
     @Override
-    public ResponseEntity<TypeDTO> activate(@PathVariable Long id) {
-        return ResponseEntity.ok(typeMapper.toDto(typeService.activateType(id)));
-    }
+    public ResponseEntity<TypeDTO> toggle(@PathVariable Long id) {
+        return ResponseEntity.ok(typeMapper.toDto(typeService.deactivate(id)));
+    }*/
 
     @GetMapping("/enable")
     @Override
-    public ResponseEntity<List<TypeDTO>> findByActivateTrue() {
+    public ResponseEntity<List<TypeDTO>> findAllByActivate() {
 
-        List<Type>typeList = typeService.findByActivateTrue();
-
-        return typeList.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(typeList.stream().map(typeMapper::toDto).toList());
-    }
-
-    @GetMapping("/disable")
-    @Override
-    public ResponseEntity<List<TypeDTO>> findByActivateFalse() {
-        List<Type>typeList = typeService.findByActivateFalse();
+        List<Type>typeList = typeService.findAllByActiveTrue();
 
         return typeList.isEmpty() ?
                 ResponseEntity.noContent().build() :

@@ -24,7 +24,6 @@ public class RiderService extends BaseServiceImpl<Rider,Long> {
         }
 
         Rider rider = riderMapper.toEntity(createRiderDTO);
-        rider.setActivate(true);
         return save(rider);
 
     }

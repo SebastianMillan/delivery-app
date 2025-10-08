@@ -11,7 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import static com.deliverysl.luxurydelivery.common.DefaultsIds.DEFAULT_TYPE_ID;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +28,14 @@ public class TypeService extends BaseServiceImpl<Type,Long> {
    @Transactional
    public Type create (TypeCreateDTO typeCreateDTO){
         Type type = typeMapper.toEntity(typeCreateDTO);
-        type.setActivate(true);
         return save(type);
     }
 
    @Transactional
    public Type edit(TypeCreateDTO typeCreateDTO, Long id){
+
+       if (id == DEFAULT_TYPE_ID) {throw new TypeNotFoundException(id);}
+
        Type type = findByIdOrThrow(id);
        type.setName(typeCreateDTO.name());
        type.setDescription(typeCreateDTO.description());
@@ -42,49 +44,30 @@ public class TypeService extends BaseServiceImpl<Type,Long> {
    }
 
    @Transactional
-   public void deleteTypeById(Long id){
+   public void deactiveTypeById(Long id){
 
-        Type type = findByIdOrThrow(id);
-        if (type.getName().trim().equalsIgnoreCase("Sin tipo")){
+        if (id == DEFAULT_TYPE_ID){
             //Se deberia crear otra excepción especifica para que
-            //se lance cuando se intente borrar el tipo 'Sin tipo'
+            //se lance cuando se intente activar o desactivar el tipo 'Sin tipo'
             throw new TypeNotFoundException(id);
         }
-        else{
-           Type noType = findByName("Sin tipo");
-           noType.getRestaurantList().addAll(type.getRestaurantList());
-           //Se asigna el 'Sin tipo' a todos los restaurantes de la lista
-           for (Restaurant restaurant: type.getRestaurantList()){
-               restaurant.setType(noType);
-           }
-           //No borramos el tipo,lo desactivamos
-           type.setActivate(false);
-           save(noType);
-           save(type);
-        }
-   }
 
-   @Transactional
-   public Type activateType(Long id){
+        Type defaultType = findByIdOrThrow(DEFAULT_TYPE_ID);
         Type type = findByIdOrThrow(id);
-        if (!type.isActivate()){
-            type.setActivate(true);
-            return save(type);
+        //Se añaden todos los restaurantes del tipo buscado al tipo por defecto
+        defaultType.getRestaurantList().addAll(type.getRestaurantList());
+        //Se asigna el 'Sin tipo' a todos los restaurantes de la lista
+        for (Restaurant restaurant: type.getRestaurantList()){
+            restaurant.setType(defaultType);
         }
-        return type;
+        //No borramos el tipo,lo desactivamos
+        save(defaultType);
+        deactivate(id);
+
    }
 
     public Type findByName(String name){
         return typeRepository.findByName(name).orElseThrow(TypeNotFoundException::new);
-    }
-
-    public List<Type> findByActivateTrue(){
-        return typeRepository.findByActivateTrue();
-    }
-
-
-    public List<Type> findByActivateFalse(){
-        return typeRepository.findByActivateFalse();
     }
 
 }

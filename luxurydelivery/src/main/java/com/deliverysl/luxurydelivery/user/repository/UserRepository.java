@@ -1,12 +1,8 @@
 package com.deliverysl.luxurydelivery.user.repository;
 
 import com.deliverysl.luxurydelivery.user.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.common.repository.BaseRepository;
 
-import java.util.List;
-import java.util.Optional;
+public interface UserRepository extends BaseRepository<User,Long> {
 
-public interface UserRepository extends JpaRepository<User,Long> {
-    List<User>findByActivateTrue();
-    List<User>findByActivateFalse();
 }

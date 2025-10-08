@@ -22,7 +22,7 @@ public class ProductMapper {
                 product.getAllergensList().stream()
                         .map(allergenMapper::toShortDto)
                         .toList(),
-                product.isActivate()
+                product.isActive()
         );
     }
 }

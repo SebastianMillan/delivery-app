@@ -56,34 +56,21 @@ public class OrderController implements OrderControllerSwagger{
 
     @DeleteMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        orderService.deleteOrderById(id);
+    public ResponseEntity<?> deactive(@PathVariable Long id) {
+        orderService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/{id:[0-9]+}/activate")
+    /*@PatchMapping("/{id:[0-9]+}/activate")
     @Override
-    public ResponseEntity<OrderDTO> activate(@PathVariable Long id) {
-        return ResponseEntity.ok(orderMapper.toDto(orderService.activate(id)));
-    }
+    public ResponseEntity<OrderDTO> toggle(@PathVariable Long id) {
+        return ResponseEntity.ok(orderMapper.toDto(orderService.deactivate(id)));
+    }*/
 
     @Override
     @GetMapping("/enable")
-    public ResponseEntity<List<OrderDTO>> findByActivateTrue() {
-        List<Order> orderList = orderService.findByActivateTrue();
-
-        return orderList.isEmpty() ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.ok(orderList.stream()
-                        .map(orderMapper::toDto)
-                        .toList());
-    }
-
-    @Override
-    @GetMapping("/disable")
-    public ResponseEntity<List<OrderDTO>> findByActivateFalse() {
-
-        List<Order> orderList = orderService.findByActivateFalse();
+    public ResponseEntity<List<OrderDTO>> findAllByActivateTrue() {
+        List<Order> orderList = orderService.findAllByActiveTrue();
 
         return orderList.isEmpty() ?
                 ResponseEntity.noContent().build() :

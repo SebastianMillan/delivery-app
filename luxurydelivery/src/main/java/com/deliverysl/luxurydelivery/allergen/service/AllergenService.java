@@ -43,30 +43,14 @@ public class AllergenService extends BaseServiceImpl<Allergen, Long> {
     }
 
     @Transactional
-    public void deleteAllergenById(Long id){
+    public void deactiveAllergenById(Long id){
         Allergen allergen = findByIdOrThrow(id);
         // Desacomplamos con los helper los productos asociados a este alergeno
         for (Product p : new ArrayList<>(allergen.getProductList())) {
             p.removeAllergen(allergen);
         }
-        allergen.setActivate(false);
         save(allergen);
+        deactivate(id);
     }
 
-    @Transactional
-    public Allergen activateAllergen(Long id){
-        Allergen allergen = findByIdOrThrow(id);
-        if (!allergen.isActivate()){
-            allergen.setActivate(true);
-            save(allergen);
-        }
-        return allergen;
-    }
-
-    public List<Allergen> findByActivateTrue(){
-        return allergenRepository.findByActivateTrue();
-    }
-    public List<Allergen> findByActivateFalse(){
-        return allergenRepository.findByActivateFalse();
-    }
 }

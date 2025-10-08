@@ -4,7 +4,6 @@ import com.deliverysl.luxurydelivery.category.dto.CategoryCreateDTO;
 import com.deliverysl.luxurydelivery.category.exception.CategoryNotFoundException;
 import com.deliverysl.luxurydelivery.category.mapper.CategoryMapper;
 import com.deliverysl.luxurydelivery.category.model.Category;
-import com.deliverysl.luxurydelivery.category.repository.CategoryRepository;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
 import com.deliverysl.luxurydelivery.restaurant.service.RestaurantService;
@@ -13,15 +12,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CategoryService extends BaseServiceImpl<Category,Long> {
 
     private final RestaurantService restaurantService;
     private final CategoryMapper categoryMapper;
-    private final CategoryRepository categoryRepository;
+    //private final CategoryRepository categoryRepository;
 
     public Category findByIdOrThrow(Long id){
         return findOptionalById(id).orElseThrow(() -> new CategoryNotFoundException(id));
@@ -49,8 +46,11 @@ public class CategoryService extends BaseServiceImpl<Category,Long> {
     }
 
     @Transactional
-    public void deleteCategoryById(Long id){
+    public void deactivateCategoryById(Long id){
 
+        //No se como podriamos buscar la categoría por defecto de cada restaurante,
+        //ya que el id cambia para cada restaurante.Lo he buscado por el nombre,se que no es lo mas correcto
+        //Pero por ahora funciona
         Category category = findByIdOrThrow(id);
         if (category.getName().trim().equalsIgnoreCase("Sin categoría")){
             //Crear una excepción específica para ello
@@ -74,29 +74,10 @@ public class CategoryService extends BaseServiceImpl<Category,Long> {
             noCategory.getProductList().addAll(category.getProductList());
             category.getProductList().clear();
 
-            category.setActivate(false);
-            save(category);
             save(noCategory);
+            deactivate(id);
         }
 
-    }
-
-    @Transactional
-    public Category activate(Long id){
-        Category category = findByIdOrThrow(id);
-        if (!category.isActivate()){
-            category.setActivate(true);
-            save(category);
-        }
-        return category;
-    }
-
-    public List<Category> findByActivateTrue(){
-        return categoryRepository.findByActivateTrue();
-    }
-
-    public List<Category> findByActivateFalse(){
-        return categoryRepository.findByActivateFalse();
     }
 
 }

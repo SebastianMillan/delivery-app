@@ -17,7 +17,7 @@ public class ClientMapper {
                 client.getSurnames(),
                 client.getEmail(),
                 client.getAddress(),
-                client.isActivate()
+                client.isActive()
         );
     }
 
@@ -28,7 +28,6 @@ public class ClientMapper {
                 .surnames(clientDTO.surnames())
                 .email(clientDTO.email())
                 .address(clientDTO.adress())
-                .activate(clientDTO.active())
                 .build();
     }
 

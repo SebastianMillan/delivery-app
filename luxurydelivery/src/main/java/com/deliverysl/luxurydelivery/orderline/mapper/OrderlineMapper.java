@@ -15,7 +15,7 @@ public class OrderlineMapper {
                 orderline.getProduct().getName(),
                 orderline.getQuantity(),
                 orderline.getSubtotal(),
-                orderline.isActivate()
+                orderline.isActive()
         );
     }
 
@@ -25,7 +25,6 @@ public class OrderlineMapper {
                 .quantity(orderlineDTO.quantity())
                 .subtotal(orderlineDTO.subtotal())
                 .product(product)
-                .activate(orderlineDTO.activate())
                 .build();
     }
 
