@@ -2,7 +2,7 @@ package com.deliverysl.luxurydelivery.product.model;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
 import com.deliverysl.luxurydelivery.allergen.model.Allergen;
-import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
 package com.deliverysl.luxurydelivery.type.model;
 
-import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
 
 import jakarta.persistence.*;

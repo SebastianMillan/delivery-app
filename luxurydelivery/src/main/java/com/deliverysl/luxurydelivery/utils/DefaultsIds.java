@@ -1,4 +1,4 @@
-package com.deliverysl.luxurydelivery.common;
+package com.deliverysl.luxurydelivery.utils;
 
 public class DefaultsIds {
 

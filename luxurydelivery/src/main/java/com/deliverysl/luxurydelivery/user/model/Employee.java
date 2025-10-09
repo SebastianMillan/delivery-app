@@ -32,4 +32,9 @@ public class Employee extends User {
     )
     private List<Order> orderList;
 
+    public void setDefaultRestaurant(Restaurant defaultRestaurant){
+        this.restaurant = defaultRestaurant;
+        defaultRestaurant.getEmployeeList().add(this);
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.deliverysl.luxurydelivery.order.service;
 
-import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.deliverysl.luxurydelivery.order.dto.CreateOrderDTO;
 import com.deliverysl.luxurydelivery.order.dto.EditOrderDto;
 import com.deliverysl.luxurydelivery.order.exception.OrderNotFoundException;

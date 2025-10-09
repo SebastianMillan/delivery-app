@@ -1,6 +1,6 @@
 package com.deliverysl.luxurydelivery.user.model;
 
-import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;

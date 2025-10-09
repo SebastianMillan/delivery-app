@@ -1,4 +1,4 @@
-package com.deliverysl.luxurydelivery.common.model;
+package com.deliverysl.luxurydelivery.utils;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

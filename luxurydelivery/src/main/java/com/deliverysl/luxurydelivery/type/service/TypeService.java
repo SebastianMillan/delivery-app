@@ -11,7 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.deliverysl.luxurydelivery.common.DefaultsIds.DEFAULT_TYPE_ID;
+import static com.deliverysl.luxurydelivery.utils.DefaultsIds.DEFAULT_TYPE_ID;
 
 @Service
 @RequiredArgsConstructor

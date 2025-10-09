@@ -1,7 +1,5 @@
 package com.deliverysl.luxurydelivery.utils;
 
-import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
-import com.deliverysl.luxurydelivery.common.repository.BaseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -6,10 +6,13 @@ import com.deliverysl.luxurydelivery.user.dto.CreateEmployeeDTO;
 import com.deliverysl.luxurydelivery.user.exception.UserNotFoundException;
 import com.deliverysl.luxurydelivery.user.mapper.EmployeeMapper;
 import com.deliverysl.luxurydelivery.user.model.Employee;
+import com.deliverysl.luxurydelivery.user.repository.EmployeeRepository;
 import com.deliverysl.luxurydelivery.utils.BaseServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ public class EmployeeService extends BaseServiceImpl<Employee,Long> {
 
     private final EmployeeMapper employeeMapper;
     private final RestaurantService restaurantService;
+    private final EmployeeRepository employeeRepository;
 
     @Transactional
     public Employee create(CreateEmployeeDTO createEmployeeDTO){
@@ -51,5 +55,9 @@ public class EmployeeService extends BaseServiceImpl<Employee,Long> {
             return save(employee);
                 }
         ).orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public List<Employee> findAllByRestaurantId(Long restaurantId){
+        return employeeRepository.findByRestaurant_id(restaurantId);
     }
 }

@@ -1,7 +1,7 @@
 package com.deliverysl.luxurydelivery.type.repository;
 
 import com.deliverysl.luxurydelivery.type.model.Type;
-import com.deliverysl.luxurydelivery.common.repository.BaseRepository;
+import com.deliverysl.luxurydelivery.utils.BaseRepository;
 
 import java.util.Optional;
 

@@ -1,6 +1,6 @@
 package com.deliverysl.luxurydelivery.order.model;
 
-import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.deliverysl.luxurydelivery.user.model.Client;
 import com.deliverysl.luxurydelivery.user.model.Employee;
 import com.deliverysl.luxurydelivery.user.model.Rider;

@@ -1,7 +1,7 @@
 package com.deliverysl.luxurydelivery.restaurant.model;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
-import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.deliverysl.luxurydelivery.user.model.Employee;
 import com.deliverysl.luxurydelivery.type.model.Type;
 import jakarta.persistence.*;

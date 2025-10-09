@@ -1,6 +1,6 @@
 package com.deliverysl.luxurydelivery.allergen.model;
 
-import com.deliverysl.luxurydelivery.common.model.ActivableEntity;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
