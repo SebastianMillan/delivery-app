@@ -1,7 +1,8 @@
 package com.deliverysl.luxurydelivery.restaurant.repository;
 
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.utils.BaseRepository;
 
-public interface RestaurantRepository extends JpaRepository<Restaurant,Long> {
+public interface RestaurantRepository extends BaseRepository<Restaurant,Long> {
+
 }

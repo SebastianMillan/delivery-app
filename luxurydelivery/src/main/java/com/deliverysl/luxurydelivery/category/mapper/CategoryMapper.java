@@ -21,7 +21,8 @@ public class CategoryMapper {
         return new CategoryDTO(
                 category.getId(),
                 category.getName(),
-                category.getDescription()
+                category.getDescription(),
+                category.isActive()
         );
     }
 
@@ -38,6 +39,7 @@ public class CategoryMapper {
                 category.getName(),
                 category.getDescription(),
                 category.getRestaurant().getId()
+
         );
     }
 

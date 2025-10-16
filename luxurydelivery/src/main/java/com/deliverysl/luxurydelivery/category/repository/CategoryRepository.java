@@ -1,7 +1,8 @@
 package com.deliverysl.luxurydelivery.category.repository;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.utils.BaseRepository;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends BaseRepository<Category, Long> {
+
 }

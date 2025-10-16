@@ -32,22 +32,27 @@ public class DrinkService extends BaseServiceImpl<Drink, Long> {
     * */
     @Transactional
     public Drink create(CreateDrinkDTO createDrinkDTO){
-        Category category = categoryService.findById(createDrinkDTO.categoryId());
+        Category category = categoryService.findByIdOrThrow(createDrinkDTO.categoryId());
         List<Allergen> allergenList = createDrinkDTO.allergensIdList().stream()
                 .map(allergenService::findByIdOrThrow)
-                .collect(Collectors.toList());
+                .toList();
 
         Drink drink = mapper.toEntity(createDrinkDTO, category);
+        category.addProduct(drink);
 
         // Agregamos con los helper los alergenos a este Drink
-        allergenList.forEach(drink::addAllergen);
+        allergenList.forEach(allergen -> {
+            if (allergen.isActive()){
+                drink.addAllergen(allergen);
+            }
+        });
 
         return save(drink);
     }
 
     @Transactional
     public Drink edit(Long id, CreateDrinkDTO createDrinkDTO){
-        Category category = categoryService.findById(createDrinkDTO.categoryId());
+        Category category = categoryService.findByIdOrThrow(createDrinkDTO.categoryId());
         List<Allergen> allergenList = createDrinkDTO.allergensIdList().stream()
                 .map(allergenService::findByIdOrThrow)
                 .collect(Collectors.toList());

@@ -3,6 +3,7 @@ package com.deliverysl.luxurydelivery.type.controller;
 import com.deliverysl.luxurydelivery.type.dto.TypeCreateDTO;
 import com.deliverysl.luxurydelivery.type.dto.TypeDTO;
 import com.deliverysl.luxurydelivery.type.mapper.TypeMapper;
+import com.deliverysl.luxurydelivery.type.model.Type;
 import com.deliverysl.luxurydelivery.type.service.TypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,9 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(
-        "/type"
-)
+@RequestMapping("/type")
 public class TypeController
         implements TypeControllerSwagger {
 
@@ -25,42 +24,57 @@ public class TypeController
     @GetMapping
     @Override
     public ResponseEntity<List<TypeDTO>> findAll(){
+        List<Type> typeList = typeService.findAll();
 
-        return typeService.findAll().isEmpty() ?
-                ResponseEntity.notFound().build() :
-                ResponseEntity.ok(typeService.findAll()
-                .stream().map(typeMapper::toDto)
-                .toList());
-
+        return typeList.isEmpty() ?
+               ResponseEntity.noContent().build() :
+               ResponseEntity.ok(typeList.stream()
+                       .map(typeMapper::toDto)
+                       .toList());
     }
 
     @GetMapping("/{id:[0-9]+}")
     @Override
     public ResponseEntity<TypeDTO> findById(@PathVariable Long id){
-        return ResponseEntity.ok(typeMapper.toDto(typeService.findById(id)));
+       return ResponseEntity.ok(typeMapper.toDto(typeService.findByIdOrThrow(id)));
     }
 
     @PostMapping
     @Override
     public ResponseEntity<TypeDTO>create(@RequestBody TypeCreateDTO typeCreateDTO){
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                typeMapper.toDto(typeService.create(typeMapper.toEntity(typeCreateDTO))));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(typeMapper.toDto(typeService.create(typeCreateDTO)));
     }
 
     @PutMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<TypeDTO>edit(@RequestBody TypeCreateDTO typeCreateDTO,@PathVariable Long id){
-        return ResponseEntity.ok(typeMapper.toDto(typeService.edit(typeMapper.toEntity(typeCreateDTO),id)));
+    public ResponseEntity<TypeDTO>edit(@PathVariable Long id,@RequestBody TypeCreateDTO typeCreateDTO){
+        return ResponseEntity.ok(typeMapper.toDto(typeService.edit(typeCreateDTO,id)));
     }
 
     @DeleteMapping("/{id:[0-9]+}")
     @Override
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        typeService.delete(id);
+    public ResponseEntity<?> deactive(@PathVariable Long id){
+        typeService.deactiveTypeById(id);
         return ResponseEntity.noContent().build();
     }
 
+    /*//No se si es mas correcto crear un dto especifico para pasarselo en el cuerpo o no
+    @PatchMapping("/{id:[0-9]+}/toggle")
+    @Override
+    public ResponseEntity<TypeDTO> toggle(@PathVariable Long id) {
+        return ResponseEntity.ok(typeMapper.toDto(typeService.deactivate(id)));
+    }*/
 
+    @GetMapping("/enable")
+    @Override
+    public ResponseEntity<List<TypeDTO>> findAllByActivate() {
+
+        List<Type>typeList = typeService.findAllByActiveTrue();
+
+        return typeList.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(typeList.stream().map(typeMapper::toDto).toList());
+    }
 
 }

@@ -2,6 +2,7 @@ package com.deliverysl.luxurydelivery.product.model;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
 import com.deliverysl.luxurydelivery.allergen.model.Allergen;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 // Le dice a Jackson que incluya en el JSON una propiedad "tipo" con el nombre del subtipo concreto (FOOD, DRINK, etc.)
@@ -31,7 +33,7 @@ import java.util.List;
         strategy = InheritanceType.JOINED
 )
 @Entity
-public abstract class Product {
+public abstract class Product extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -42,7 +44,7 @@ public abstract class Product {
     protected String name;
     protected String description;
     protected String image;
-    protected double price;
+    protected BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -69,4 +71,5 @@ public abstract class Product {
         this.allergensList.remove(allergen);
         allergen.getProductList().remove(this);
     }
+
 }

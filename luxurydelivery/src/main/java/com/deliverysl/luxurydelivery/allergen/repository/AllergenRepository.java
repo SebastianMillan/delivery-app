@@ -1,7 +1,8 @@
 package com.deliverysl.luxurydelivery.allergen.repository;
 
 import com.deliverysl.luxurydelivery.allergen.model.Allergen;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.utils.BaseRepository;
 
-public interface AllergenRepository extends JpaRepository<Allergen, Long> {
+public interface AllergenRepository extends BaseRepository<Allergen, Long> {
+
 }

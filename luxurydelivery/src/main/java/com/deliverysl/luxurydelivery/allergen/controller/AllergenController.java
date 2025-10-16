@@ -24,15 +24,9 @@ public class AllergenController implements AllergenControllerSwagger{
     @GetMapping
     public ResponseEntity<List<AllergenDTO>> findAll() {
         List<Allergen> allergens = service.findAll();
-        if(allergens.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok(
-                allergens.stream()
-                        .map(mapper::toDto)
-                        .toList()
-        );
+        return allergens.isEmpty() ?
+               ResponseEntity.noContent().build() :
+               ResponseEntity.ok(allergens.stream().map(mapper::toDto).toList());
     }
 
     @Override
@@ -56,8 +50,27 @@ public class AllergenController implements AllergenControllerSwagger{
 
     @Override
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        service.deleteAllergenById(id);
+    public ResponseEntity<?> deactive(@PathVariable Long id) {
+        service.deactiveAllergenById(id);
         return ResponseEntity.noContent().build();
     }
+
+    /*@Override
+    @DeleteMapping("/{id:[0-9]+}")
+    public ResponseEntity<AllergenDTO> toggle(@PathVariable Long id) {
+        return ResponseEntity.ok(mapper.toDto(service.deactivate(id)));
+    }*/
+
+    @Override
+    @GetMapping("/enable")
+    public ResponseEntity<List<AllergenDTO>> findAllByActiveTrue() {
+        List<Allergen> allergenList = service.findAllByActiveTrue();
+
+        return allergenList.isEmpty() ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.ok(allergenList.stream()
+                        .map(mapper::toDto)
+                        .toList());
+    }
+
 }

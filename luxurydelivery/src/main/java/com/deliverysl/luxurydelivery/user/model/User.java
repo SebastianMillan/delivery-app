@@ -1,11 +1,26 @@
-package com.deliverysl.luxurydelivery.model;
+package com.deliverysl.luxurydelivery.user.model;
 
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipo"
+)
+
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Admin.class, name = "ADMIN"),
+        @JsonSubTypes.Type(value = Employee.class, name = "EMPLOYEE"),
+        @JsonSubTypes.Type(value = Client.class, name = "CLIENT"),
+        @JsonSubTypes.Type(value = Rider.class, name = "RIDER")
+})
 @Data
 @NoArgsConstructor //Constructor vacío
 @AllArgsConstructor //Constructor completo
@@ -17,7 +32,7 @@ import lombok.experimental.SuperBuilder;
 @Table(
         name = "usuario"
 )
-public abstract class User {
+public abstract class User extends ActivableEntity {
 
     @Id
     @GeneratedValue(

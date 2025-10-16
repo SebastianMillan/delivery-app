@@ -1,24 +1,25 @@
-package com.deliverysl.luxurydelivery.model;
+package com.deliverysl.luxurydelivery.user.model;
 
+import com.deliverysl.luxurydelivery.order.model.Order;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 public class Employee extends User {
 
     private String dni;
     private boolean isBoss;
-    private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY) //No se trae los atributos de restaurante a no ser que posteriormente se realice una consulta.)
     @JoinColumn(name = "restaurant_id")
@@ -30,5 +31,10 @@ public class Employee extends User {
             orphanRemoval = true
     )
     private List<Order> orderList;
+
+    public void setDefaultRestaurant(Restaurant defaultRestaurant){
+        this.restaurant = defaultRestaurant;
+        defaultRestaurant.getEmployeeList().add(this);
+    }
 
 }

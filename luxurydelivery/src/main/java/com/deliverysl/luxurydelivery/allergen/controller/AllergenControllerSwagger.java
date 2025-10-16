@@ -98,15 +98,48 @@ public interface AllergenControllerSwagger {
     );
 
     @Operation(
-            summary = "Eliminar un alérgeno",
-            description = "Elimina un alérgeno por su identificador. Responde 204 si se elimina.",
+            summary = "Activa o desactiva un alérgeno",
+            description = "Activa o desactiva un alérgeno por su identificador. Responde 204 si se activa o desactiva.",
             security = { @SecurityRequirement(name = "bearerAuth") }
     )
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?> delete(
+    ResponseEntity<?> deactive(
             @Parameter(description = "Identificador del alérgeno", example = "1")
             Long id
     );
+
+    /*@Operation(
+            summary = "Activa un alérgeno",
+            description = "Activa un alérgeno desactivado. Devuelve el recurso activado.",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Actualizado",
+                    headers = @Header(name = "Location", description = "URI del recurso creado"),
+                    content = @Content(schema = @Schema(implementation = AllergenDTO.class))
+            ),
+    })
+    ResponseEntity<AllergenDTO>toggle(
+            @Parameter(description = "Identificador del alérgeno",example = "1")
+            Long id
+    );*/
+
+    @Operation(
+            summary = "Listado de alérgenos activos",
+            description = "Devuelve todos los alérgenos activos. Si no hay resultados, responde 204.",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Listado recuperado",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = AllergenDTO.class)))
+            ),
+    })
+    ResponseEntity<List<AllergenDTO>> findAllByActiveTrue();
+
 }

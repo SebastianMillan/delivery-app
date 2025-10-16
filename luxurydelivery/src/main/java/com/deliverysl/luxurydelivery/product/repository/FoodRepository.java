@@ -1,7 +1,7 @@
 package com.deliverysl.luxurydelivery.product.repository;
 
 import com.deliverysl.luxurydelivery.product.model.Food;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.deliverysl.luxurydelivery.utils.BaseRepository;
 
-public interface FoodRepository extends JpaRepository<Food, Long> {
+public interface FoodRepository extends BaseRepository<Food, Long> {
 }

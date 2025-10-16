@@ -1,7 +1,8 @@
 package com.deliverysl.luxurydelivery.restaurant.model;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
-import com.deliverysl.luxurydelivery.model.Employee;
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
+import com.deliverysl.luxurydelivery.user.model.Employee;
 import com.deliverysl.luxurydelivery.type.model.Type;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Restaurant {
+public class Restaurant extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -24,7 +25,9 @@ public class Restaurant {
     )
     private Long id;
 
+    @Column(unique = true)
     private String name;
+
     private String avatar;
     private String location;
     private double rating;
@@ -48,6 +51,17 @@ public class Restaurant {
             orphanRemoval = true
     )
     private List<Category> categoryList;
+
+    public void addCategory(Category category){
+        this.categoryList.add(category);
+        category.setRestaurant(this);
+    }
+
+    /*public void deleteCategory(Category category){
+        this.categoryList.remove(category);
+        category.setRestaurant(null);
+    }*/
+
 
 
 }

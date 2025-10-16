@@ -1,17 +1,15 @@
 package com.deliverysl.luxurydelivery.utils;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
+public class BaseServiceImpl<T extends ActivableEntity,ID> implements BaseService<T, ID> {
 
     @Autowired
-    protected JpaRepository<T, ID> repository;
+    protected BaseRepository<T, ID> repository;
 
     @Override
     public T save(T entity) {
@@ -35,14 +33,29 @@ public class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
 
     @Override
     public void deleteById(ID id) {
-        if(!existsById(id)){
-            throw new EntityNotFoundException("Entity not found");
-        }
-        repository.deleteById(id);
+        T entity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Entity Not Found"));
+        entity.setActive(false);
+        repository.save(entity);
     }
 
     @Override
-    public void delete(T t) {
-        repository.delete(t);
+    public void delete(T entity) {
+        entity.setActive(false);
+        repository.save(entity);
+    }
+
+    @Override
+    public List<T> findAllByActiveTrue() {
+        return repository.findAllByActiveTrue();
+    }
+
+    @Override
+    public T deactivate(ID id) {
+        T entity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Entity Not Found"));
+        entity.setActive(!entity.isActive());
+        repository.save(entity);
+        return entity;
     }
 }

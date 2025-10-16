@@ -10,4 +10,6 @@ public interface BaseService<T, ID> {
     List<T> findAll();
     void deleteById(ID id);
     void delete(T t);
+    List<T>findAllByActiveTrue();
+    T deactivate(ID id);
 }

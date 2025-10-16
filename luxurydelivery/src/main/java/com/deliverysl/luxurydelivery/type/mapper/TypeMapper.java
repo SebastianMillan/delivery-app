@@ -20,7 +20,8 @@ public class TypeMapper {
         return new TypeDTO(
                 type.getId(),
                 type.getName(),
-                type.getDescription()
+                type.getDescription(),
+                type.isActive()
         );
     }
 

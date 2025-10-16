@@ -16,7 +16,8 @@ public class AllergenMapper {
                 allergen.getId(),
                 allergen.getName(),
                 allergen.getDescription(),
-                allergen.getImage()
+                allergen.getImage(),
+                allergen.isActive()
         );
     }
 

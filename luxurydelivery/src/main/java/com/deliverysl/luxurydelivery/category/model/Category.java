@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.category.model;
 
+import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Category {
+public class Category extends ActivableEntity {
 
     @Id
     @GeneratedValue(
@@ -41,5 +42,14 @@ public class Category {
     )
     private List<Product> productList;
 
+    //Metodos Helper
+    public void addProduct(Product product){
+        this.productList.add(product);
+        product.setCategory(this);
+    }
 
+    public void deleteProduct(Product product){
+        this.productList.remove(product);
+        product.setCategory(null);
+    }
 }
