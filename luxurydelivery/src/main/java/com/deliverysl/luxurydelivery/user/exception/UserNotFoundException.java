@@ -9,7 +9,7 @@ public class UserNotFoundException extends EntityNotFoundException {
     }
 
     public UserNotFoundException() {
-        super("Products not found");
+        super("User not found");
     }
 
     public UserNotFoundException(Long id){
