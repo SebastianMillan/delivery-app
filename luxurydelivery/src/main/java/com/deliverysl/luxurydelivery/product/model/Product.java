@@ -72,4 +72,10 @@ public abstract class Product extends ActivableEntity {
         allergen.getProductList().remove(this);
     }
 
+    public void setNoCategory(Category noCategory){
+        this.category = noCategory;
+        noCategory.getProductList().add(this);
+
+    }
+
 }

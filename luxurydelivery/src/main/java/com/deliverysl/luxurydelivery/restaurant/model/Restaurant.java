@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,7 +26,7 @@ public class Restaurant extends ActivableEntity {
     )
     private Long id;
 
-    @Column(unique = true)
+    /*@Column(unique = true)*/
     private String name;
 
     private String avatar;
@@ -44,7 +45,6 @@ public class Restaurant extends ActivableEntity {
             orphanRemoval = true
     )
     private List<Employee> employeeList;
-
     @OneToMany(
             mappedBy = "restaurant",
             cascade = CascadeType.ALL,
@@ -61,7 +61,5 @@ public class Restaurant extends ActivableEntity {
         this.categoryList.remove(category);
         category.setRestaurant(null);
     }*/
-
-
 
 }

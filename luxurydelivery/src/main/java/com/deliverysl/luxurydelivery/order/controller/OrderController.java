@@ -57,7 +57,7 @@ public class OrderController implements OrderControllerSwagger{
     @DeleteMapping("/{id:[0-9]+}")
     @Override
     public ResponseEntity<?> deactive(@PathVariable Long id) {
-        orderService.deleteById(id);
+        orderService.deactivate(id);
         return ResponseEntity.noContent().build();
     }
 

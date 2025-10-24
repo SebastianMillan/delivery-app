@@ -1,6 +1,7 @@
 package com.deliverysl.luxurydelivery.user.service;
 
 import com.deliverysl.luxurydelivery.user.dto.CreateClientDTO;
+import com.deliverysl.luxurydelivery.user.exception.PasswordNotMatchException;
 import com.deliverysl.luxurydelivery.user.exception.UserNotFoundException;
 import com.deliverysl.luxurydelivery.user.mapper.ClientMapper;
 import com.deliverysl.luxurydelivery.user.model.Client;
@@ -19,7 +20,7 @@ public class ClientService extends BaseServiceImpl<Client,Long> {
     public Client create( CreateClientDTO createClientDTO){
 
         if (!createClientDTO.password().equals(createClientDTO.confirmPassword())){
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            throw new PasswordNotMatchException();
         }
 
         Client client =  clientMapper.toEntity(createClientDTO);
@@ -31,7 +32,7 @@ public class ClientService extends BaseServiceImpl<Client,Long> {
 
 
         if (!createClientDTO.password().equals(createClientDTO.confirmPassword())){
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            throw new PasswordNotMatchException();
         }
 
         return findOptionalById(id).map(client -> {

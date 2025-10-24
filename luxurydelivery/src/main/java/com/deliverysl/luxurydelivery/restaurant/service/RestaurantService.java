@@ -39,10 +39,7 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
     public Restaurant create(CreateRestaurandDTO createRestaurandDTO){
 
         Type type = typeService.findByName(createRestaurandDTO.type());
-
         Restaurant restaurant = restaurantMapper.toEntity(createRestaurandDTO,type);
-        restaurant.setActive(true);
-
         type.addRestaurant(restaurant);
 
         //el restaurante que se cree tendrá un categoría por defecto
@@ -50,6 +47,7 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
                 .name("Sin categoría")
                 .description("Para productos sin categoría seleccionada")
                 .restaurant(restaurant)
+                .noCategory(true)
                 .build();
 
         restaurant.addCategory(category);
