@@ -27,6 +27,13 @@ public class Category extends ActivableEntity {
     private String name;
     private String description;
 
+    //Nuevo atributo para obtener la categoria que se crea por defecto cuando se crea un restaurante
+    //No busco por nombre en la BD ya que si se añaden traducciones en la aplicación
+    //Petará 100X100
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean noCategory = false;
+
     @ManyToOne(
             fetch = FetchType.LAZY
     )
@@ -52,4 +59,5 @@ public class Category extends ActivableEntity {
         this.productList.remove(product);
         product.setCategory(null);
     }
+
 }

@@ -1,6 +1,8 @@
 package com.deliverysl.luxurydelivery.restaurant.service;
 
 import com.deliverysl.luxurydelivery.category.model.Category;
+import com.deliverysl.luxurydelivery.restaurant.exception.ProtectedRestaurantException;
+import com.deliverysl.luxurydelivery.restaurant.repository.RestaurantRepository;
 import com.deliverysl.luxurydelivery.user.service.EmployeeService;
 import com.deliverysl.luxurydelivery.utils.DefaultsIds;
 import com.deliverysl.luxurydelivery.restaurant.dto.CreateRestaurandDTO;
@@ -24,6 +26,7 @@ import java.util.List;
 public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
 
     private final TypeService typeService;
+    private final RestaurantRepository restaurantRepository;
     private final RestaurantMapper restaurantMapper;
 
     @Lazy
@@ -39,10 +42,7 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
     public Restaurant create(CreateRestaurandDTO createRestaurandDTO){
 
         Type type = typeService.findByName(createRestaurandDTO.type());
-
         Restaurant restaurant = restaurantMapper.toEntity(createRestaurandDTO,type);
-        restaurant.setActive(true);
-
         type.addRestaurant(restaurant);
 
         //el restaurante que se cree tendrá un categoría por defecto
@@ -50,6 +50,7 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
                 .name("Sin categoría")
                 .description("Para productos sin categoría seleccionada")
                 .restaurant(restaurant)
+                .noCategory(true)
                 .build();
 
         restaurant.addCategory(category);
@@ -60,7 +61,7 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
     @Transactional
     public Restaurant edit(CreateRestaurandDTO createRestaurandDTO,Long id){
 
-        if (id == DefaultsIds.DEFAULT_RESTAURANT_ID){throw new RestaurantNotFoundException(id);}
+        if (id == DefaultsIds.DEFAULT_RESTAURANT_ID){throw new ProtectedRestaurantException(id);}
 
         Type type = typeService.findByName(createRestaurandDTO.type());
         Restaurant restaurant = findByIdOrThrow(id);
@@ -76,7 +77,7 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
     @Transactional
     public void deactiveRestaurantById(Long id){
 
-        if (id == DefaultsIds.DEFAULT_RESTAURANT_ID){throw new RestaurantNotFoundException(id);}
+        if (id == DefaultsIds.DEFAULT_RESTAURANT_ID){throw new ProtectedRestaurantException(id);}
 
         Restaurant defaultRestaurant = findByIdOrThrow(DefaultsIds.DEFAULT_RESTAURANT_ID);
         List<Employee> employees = employeeService.findAllByRestaurantId(id);
@@ -94,5 +95,9 @@ public class RestaurantService extends BaseServiceImpl<Restaurant,Long> {
 
         //Es posible quitar el save ya que la transacción detecta los cambios en entidades y los guarda en BBDD
         deactivate(id);
+    }
+
+    public List<Restaurant> findAllByTypeId(Long restaurantId){
+        return restaurantRepository.findByType_id(restaurantId);
     }
 }

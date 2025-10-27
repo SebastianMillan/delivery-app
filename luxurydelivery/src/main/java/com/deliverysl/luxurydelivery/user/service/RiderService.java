@@ -1,6 +1,7 @@
 package com.deliverysl.luxurydelivery.user.service;
 
 import com.deliverysl.luxurydelivery.user.dto.CreateRiderDTO;
+import com.deliverysl.luxurydelivery.user.exception.PasswordNotMatchException;
 import com.deliverysl.luxurydelivery.user.exception.UserNotFoundException;
 import com.deliverysl.luxurydelivery.user.mapper.RiderMapper;
 import com.deliverysl.luxurydelivery.user.model.Rider;
@@ -20,7 +21,7 @@ public class RiderService extends BaseServiceImpl<Rider,Long> {
     public Rider create(CreateRiderDTO createRiderDTO){
 
         if (!createRiderDTO.password().equals(createRiderDTO.confirmPassword())){
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            throw new PasswordNotMatchException();
         }
 
         Rider rider = riderMapper.toEntity(createRiderDTO);
@@ -32,7 +33,7 @@ public class RiderService extends BaseServiceImpl<Rider,Long> {
     public Rider edit(CreateRiderDTO createRiderDTO, Long id){
 
         if (!createRiderDTO.password().equals(createRiderDTO.confirmPassword())){
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            throw new PasswordNotMatchException();
         }
 
         return findOptionalById(id).map(rider -> {

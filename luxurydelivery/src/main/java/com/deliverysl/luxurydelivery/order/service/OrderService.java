@@ -37,8 +37,6 @@ public class OrderService extends BaseServiceImpl<Order,Long> {
     private final ClientService clientService;
     private final RiderService riderService;
     private final OrderMapper orderMapper;
-    private final OrderRepository orderRepository;
-    private final OrderlineRepository orderlineRepository;
 
     public Order findByIdOrThrow(Long id){
         return findOptionalById(id)

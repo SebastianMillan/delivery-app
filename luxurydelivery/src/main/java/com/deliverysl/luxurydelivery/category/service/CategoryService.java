@@ -4,6 +4,7 @@ import com.deliverysl.luxurydelivery.category.dto.CategoryCreateDTO;
 import com.deliverysl.luxurydelivery.category.exception.CategoryNotFoundException;
 import com.deliverysl.luxurydelivery.category.mapper.CategoryMapper;
 import com.deliverysl.luxurydelivery.category.model.Category;
+import com.deliverysl.luxurydelivery.category.repository.CategoryRepository;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
 import com.deliverysl.luxurydelivery.restaurant.service.RestaurantService;
@@ -12,13 +13,15 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService extends BaseServiceImpl<Category,Long> {
 
     private final RestaurantService restaurantService;
     private final CategoryMapper categoryMapper;
-    //private final CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public Category findByIdOrThrow(Long id){
         return findOptionalById(id).orElseThrow(() -> new CategoryNotFoundException(id));
@@ -34,13 +37,17 @@ public class CategoryService extends BaseServiceImpl<Category,Long> {
     @Transactional
     public Category edit (CategoryCreateDTO categoryCreateDTO, Long id){
 
-        Restaurant restaurant = restaurantService.findByIdOrThrow(categoryCreateDTO.idRestaurant());
         Category category = findByIdOrThrow(id);
-
+        //Se comprueba si el valor del atributo es true y si lo es salta la excepción
+        if (category.isNoCategory()){
+            throw new CategoryNotFoundException(id);
+        }
+        //He pensado que cuando modificas una categoría no la puedas cambiar de restaurante
+        //Ya que entiendo que el dueño no cambiara una categoria a otro restaurante
+        //Restaurant restaurant = restaurantService.findByIdOrThrow(categoryCreateDTO.idRestaurant());
+        //category.setRestaurant(restaurant);
         category.setName(categoryCreateDTO.name());
         category.setDescription(categoryCreateDTO.description());
-        category.setRestaurant(restaurant);
-
         return save(category);
 
     }
@@ -48,35 +55,18 @@ public class CategoryService extends BaseServiceImpl<Category,Long> {
     @Transactional
     public void deactivateCategoryById(Long id){
 
-        //No se como podriamos buscar la categoría por defecto de cada restaurante,
-        //ya que el id cambia para cada restaurante.Lo he buscado por el nombre,se que no es lo mas correcto
-        //Pero por ahora funciona
         Category category = findByIdOrThrow(id);
-        if (category.getName().trim().equalsIgnoreCase("Sin categoría")){
-            //Crear una excepción específica para ello
+        if (category.isNoCategory()){
             throw new CategoryNotFoundException(id);
         }
-        else{
-            //Buscamos la categoría por defecto
-            Category noCategory = category.getRestaurant()
-                    .getCategoryList()
-                    .stream()
-                    .filter(cat-> cat.getName().equalsIgnoreCase("Sin categoría"))
-                    .findFirst()
-                    .orElseThrow(() -> new CategoryNotFoundException(id));
 
-            //Asignamos a los productos la nueva categoría
-            for (Product product: category.getProductList()){
-                product.setCategory(noCategory);
-            }
+        //Buscamos la categoría por defecto
+        Category noCategory = categoryRepository.findByRestaurantIdAndNoCategoryTrue(category.getRestaurant().getId())
+                .orElseThrow();
 
-            //Copiamos todos los productos a la lista por defecto y limpiamos la lista de la categoría encontrada
-            noCategory.getProductList().addAll(category.getProductList());
-            category.getProductList().clear();
-
-            save(noCategory);
-            deactivate(id);
-        }
+        //Asignamos a los productos la nueva categoría
+        category.getProductList().forEach(product -> product.setNoCategory(noCategory));
+        deactivate(id);
 
     }
 
