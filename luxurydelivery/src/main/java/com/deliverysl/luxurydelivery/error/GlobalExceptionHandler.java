@@ -5,7 +5,9 @@ import com.deliverysl.luxurydelivery.category.exception.CategoryNotFoundExceptio
 import com.deliverysl.luxurydelivery.order.exception.OrderNotFoundException;
 import com.deliverysl.luxurydelivery.orderline.exception.OrderlineNotFoundException;
 import com.deliverysl.luxurydelivery.product.exception.ProductNotFoundException;
+import com.deliverysl.luxurydelivery.restaurant.exception.ProtectedRestaurantException;
 import com.deliverysl.luxurydelivery.restaurant.exception.RestaurantNotFoundException;
+import com.deliverysl.luxurydelivery.type.exception.ProtectedTypeException;
 import com.deliverysl.luxurydelivery.type.exception.TypeNotFoundException;
 import com.deliverysl.luxurydelivery.user.exception.PasswordNotMatchException;
 import com.deliverysl.luxurydelivery.user.exception.UserNotFoundException;
@@ -31,6 +33,8 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @Value("${app.error.base-url}")
+    //Dejo esto comentado porque si no, no me funciona en mi pc
+    //@Value("${app.error.base-url:http://localhost:8080}")
     private String errorBaseUrl;
 
     @ExceptionHandler({Exception.class, RuntimeException.class})
@@ -76,6 +80,18 @@ public class GlobalExceptionHandler {
         return problem;
     }
 
+    @ExceptionHandler(ProtectedRestaurantException.class)
+    public ProblemDetail handleProtectedRestaurant(ProtectedRestaurantException ex, HttpServletRequest req){
+        log.warn("403 Forbidden {} - {}",req.getRequestURI(),ex.getMessage());
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
+        problem.setTitle("Protected restaurant");
+        problem.setDetail(ex.getMessage());
+        enrich(problem,req,"restaurant.protected-delete-forbidden");
+
+        return problem;
+    }
+
     @ExceptionHandler(TypeNotFoundException.class)
     public ProblemDetail handleTypeNotFound(TypeNotFoundException ex,HttpServletRequest req){
         log.warn("404 Not Found {} - {}",req.getRequestURI(),ex.getMessage());
@@ -86,6 +102,18 @@ public class GlobalExceptionHandler {
         enrich(problem,req,"type.not-found");
         return problem;
 
+    }
+
+    @ExceptionHandler(ProtectedTypeException.class)
+    public ProblemDetail handleProtectedType(ProtectedTypeException ex, HttpServletRequest req){
+        log.warn("403 Forbidden {} - {}",req.getRequestURI(),ex.getMessage());
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
+        problem.setTitle("Protected type");
+        problem.setDetail(ex.getMessage());
+        enrich(problem,req,"type.protected-delete-forbidden");
+
+        return problem;
     }
 
     @ExceptionHandler(UserNotFoundException.class)

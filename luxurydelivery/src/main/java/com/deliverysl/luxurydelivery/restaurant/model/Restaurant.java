@@ -62,4 +62,9 @@ public class Restaurant extends ActivableEntity {
         category.setRestaurant(null);
     }*/
 
+    public void setDefaultType(Type defaultType){
+        this.type = defaultType;
+        defaultType.getRestaurantList().add(this);
+    }
+
 }

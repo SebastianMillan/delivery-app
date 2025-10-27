@@ -1,7 +1,10 @@
 package com.deliverysl.luxurydelivery.type.service;
 
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
+import com.deliverysl.luxurydelivery.restaurant.repository.RestaurantRepository;
+import com.deliverysl.luxurydelivery.restaurant.service.RestaurantService;
 import com.deliverysl.luxurydelivery.type.dto.TypeCreateDTO;
+import com.deliverysl.luxurydelivery.type.exception.ProtectedTypeException;
 import com.deliverysl.luxurydelivery.type.exception.TypeNotFoundException;
 import com.deliverysl.luxurydelivery.type.mapper.TypeMapper;
 import com.deliverysl.luxurydelivery.type.model.Type;
@@ -9,7 +12,11 @@ import com.deliverysl.luxurydelivery.type.repository.TypeRepository;
 import com.deliverysl.luxurydelivery.utils.BaseServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.deliverysl.luxurydelivery.utils.DefaultsIds.DEFAULT_TYPE_ID;
 
@@ -19,6 +26,10 @@ public class TypeService extends BaseServiceImpl<Type,Long> {
 
     private final TypeMapper typeMapper;
     private final TypeRepository typeRepository;
+
+    @Lazy
+    @Autowired
+    private RestaurantService restaurantService;
 
     public Type findByIdOrThrow(Long id){
         return findOptionalById(id)
@@ -34,7 +45,7 @@ public class TypeService extends BaseServiceImpl<Type,Long> {
    @Transactional
    public Type edit(TypeCreateDTO typeCreateDTO, Long id){
 
-       if (id == DEFAULT_TYPE_ID) {throw new TypeNotFoundException(id);}
+       if (id == DEFAULT_TYPE_ID) {throw new ProtectedTypeException(id);}
 
        Type type = findByIdOrThrow(id);
        type.setName(typeCreateDTO.name());
@@ -46,22 +57,11 @@ public class TypeService extends BaseServiceImpl<Type,Long> {
    @Transactional
    public void deactiveTypeById(Long id){
 
-        if (id == DEFAULT_TYPE_ID){
-            //Se deberia crear otra excepción especifica para que
-            //se lance cuando se intente activar o desactivar el tipo 'Sin tipo'
-            throw new TypeNotFoundException(id);
-        }
+        if (id == DEFAULT_TYPE_ID){throw new ProtectedTypeException(id);}
 
         Type defaultType = findByIdOrThrow(DEFAULT_TYPE_ID);
-        Type type = findByIdOrThrow(id);
-        //Se añaden todos los restaurantes del tipo buscado al tipo por defecto
-        defaultType.getRestaurantList().addAll(type.getRestaurantList());
-        //Se asigna el 'Sin tipo' a todos los restaurantes de la lista
-        for (Restaurant restaurant: type.getRestaurantList()){
-            restaurant.setType(defaultType);
-        }
-        //No borramos el tipo,lo desactivamos
-        save(defaultType);
+        List<Restaurant> restaurantList = restaurantService.findAllByTypeId(id);
+        restaurantList.forEach(res->{res.setDefaultType(defaultType);});
         deactivate(id);
 
    }

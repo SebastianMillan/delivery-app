@@ -49,7 +49,6 @@ public class AllergenService extends BaseServiceImpl<Allergen, Long> {
         for (Product p : new ArrayList<>(allergen.getProductList())) {
             p.removeAllergen(allergen);
         }
-        save(allergen);
         deactivate(id);
     }
 
