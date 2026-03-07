@@ -1,5 +1,6 @@
 package com.deliverysl.luxurydelivery.order.model;
 
+import com.deliverysl.luxurydelivery.order.statemachine.state.StateOrder;
 import com.deliverysl.luxurydelivery.utils.ActivableEntity;
 import com.deliverysl.luxurydelivery.user.model.Client;
 import com.deliverysl.luxurydelivery.user.model.Employee;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -52,20 +54,27 @@ public class Order extends ActivableEntity {
     @JoinColumn(name = "rider_id")
     private Rider rider;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "client_id",nullable = false)
+    //Tanto con optional como nullable en false,hacemos que siempre tenga el pedido un cliente y permitiendo
+    // que tanto rider como employee tengan la posibilidad de ser nulo depediendo del estado del pedido (ya viene por defecto asi, no hace falta ponerlo como true)
     private Client client;
 
     //Metodos helpers
 
     public void calculateTotal(){
-        if (!orderlineList.isEmpty()){
-            this.total = BigDecimal.ZERO;
-            orderlineList.forEach(orderline ->{
-                if (orderline.isActive()){
-                    this.total = this.total.add(orderline.getSubtotal());
+        this.total = BigDecimal.ZERO;
+        if (orderlineList.isEmpty() || orderlineList==null){
+            return;
+        }
+        for (Orderline orderline : orderlineList){
+            if (orderline.isActive()){
+                orderline.calculateSubtotal();
+                BigDecimal subtotal = orderline.getSubtotal();
+                if (subtotal!=null){
+                    this.total = this.total.add(subtotal);
                 }
-            });
+            }
         }
     }
 
@@ -76,10 +85,9 @@ public class Order extends ActivableEntity {
     }
 
     public void removeOrderline(Orderline orderline){
-        this.orderlineList.stream()
-                .filter(ol->ol.getId().equals(orderline.getId()))
-                .findFirst()
-                .ifPresent(ol->ol.setActive(false));
+        this.orderlineList.remove(orderline);
+        orderline.setActive(false);
+        orderline.setOrder(null);
     }
 
 }

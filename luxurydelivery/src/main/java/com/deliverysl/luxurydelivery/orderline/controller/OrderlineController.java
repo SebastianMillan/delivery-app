@@ -3,6 +3,7 @@ package com.deliverysl.luxurydelivery.orderline.controller;
 import com.deliverysl.luxurydelivery.order.model.Order;
 import com.deliverysl.luxurydelivery.order.service.OrderService;
 import com.deliverysl.luxurydelivery.orderline.dto.CreateOrderlineDTO;
+import com.deliverysl.luxurydelivery.orderline.dto.EditOrderlineDTO;
 import com.deliverysl.luxurydelivery.orderline.dto.OrderlineDTO;
 import com.deliverysl.luxurydelivery.orderline.mapper.OrderlineMapper;
 import com.deliverysl.luxurydelivery.orderline.model.Orderline;
@@ -56,17 +57,17 @@ public class OrderlineController implements OrderlineControllerSwagger {
 
     @PutMapping("/{orderlineId}")
     @Override
-    public ResponseEntity<OrderlineDTO> edit(@PathVariable Long orderId,@PathVariable Long orderlineId,@RequestBody CreateOrderlineDTO createOrderlineDTO) {
+    public ResponseEntity<OrderlineDTO> edit(@PathVariable Long orderId, @PathVariable Long orderlineId, @RequestBody EditOrderlineDTO editOrderlineDTO) {
 
-        Orderline orderline = orderService.editOrdeline(orderId,orderlineId,createOrderlineDTO);
+        Orderline orderline = orderService.editOrdeline(orderId,orderlineId,editOrderlineDTO);
 
         return ResponseEntity.ok(orderlineMapper.toDto(orderline));
     }
 
     @DeleteMapping("/{orderlineId}")
     @Override
-    public ResponseEntity<?> deactive(@PathVariable Long orderId,@PathVariable Long orderlineId) {
-        orderService.deactiveOrderLineById(orderId,orderlineId);
+    public ResponseEntity<?> delete(@PathVariable Long orderId,@PathVariable Long orderlineId) {
+        orderService.removeOrderline(orderId,orderlineId);
         return ResponseEntity.noContent().build();
     }
 

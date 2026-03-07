@@ -1,6 +1,7 @@
 package com.deliverysl.luxurydelivery.orderline.service;
 
 import com.deliverysl.luxurydelivery.orderline.dto.CreateOrderlineDTO;
+import com.deliverysl.luxurydelivery.orderline.dto.EditOrderlineDTO;
 import com.deliverysl.luxurydelivery.orderline.exception.OrderlineNotFoundException;
 import com.deliverysl.luxurydelivery.orderline.mapper.OrderlineMapper;
 import com.deliverysl.luxurydelivery.orderline.model.Orderline;
@@ -39,17 +40,18 @@ public class OrderlineService extends BaseServiceImpl<Orderline,Long> {
     }
 
     //No persiste nada al igual que el metodo de arriba
-    public Orderline edit(CreateOrderlineDTO createOrderlineDTO, Long id){
+    //Modificamos de la linea de pedido solamente la cantidad
+    //Haciendolo mas parecido a un carrito
+    public Orderline edit(EditOrderlineDTO editOrderlineDTO, Long id){
 
-        Product product = productService.findByIdOrThrow(createOrderlineDTO.idProduct());
-
+        //Buscamos la linea de pedido
         Orderline orderline = findByOrIdThrow(id);
-        orderline.setQuantity(createOrderlineDTO.quantity());
-        orderline.setProduct(product);
+        //Modificamos la cantidad del pedido
+        orderline.setQuantity(editOrderlineDTO.quantity());
+        //orderline.setProduct(product);
         orderline.calculateSubtotal();
 
         return orderline;
 
     }
-
 }

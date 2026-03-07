@@ -1,8 +1,7 @@
 package com.deliverysl.luxurydelivery.order.controller;
 
-import com.deliverysl.luxurydelivery.allergen.dto.AllergenDTO;
 import com.deliverysl.luxurydelivery.order.dto.CreateOrderDTO;
-import com.deliverysl.luxurydelivery.order.dto.EditOrderDto;
+import com.deliverysl.luxurydelivery.order.dto.EditOrderDTO;
 import com.deliverysl.luxurydelivery.order.dto.OrderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,7 +15,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -75,30 +77,7 @@ public interface OrderControllerSwagger {
             @Valid CreateOrderDTO createOrderDTO
     );
 
-    @Operation(
-            summary = "Editar un pedido",
-            description = "Actualiza un pedido existente por su identificador.",
-            security = { @SecurityRequirement(name = "bearerAuth") }
-    )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Actualizado",
-                    content = @Content(schema = @Schema(implementation = OrderDTO.class))
-            ),
-    })
-    ResponseEntity<OrderDTO> edit(
-            @RequestBody(
-                    required = true,
-                    description = "Datos a actualizar del pedido",
-                    content = @Content(schema = @Schema(implementation = EditOrderDto.class))
-            )
-            @Valid EditOrderDto editOrderDto,
-            @Parameter(description = "Identificador del pedido", example = "1")
-            Long id
-    );
-
-    @Operation(
+    /*@Operation(
             summary = "Activa o desactiva un pedido",
             description = "Activa o desactiva un pedido por su identificador. Responde 204 si se activa o desactiva.",
             security = { @SecurityRequirement(name = "bearerAuth") }
@@ -109,7 +88,7 @@ public interface OrderControllerSwagger {
     ResponseEntity<?> deactive(
             @Parameter(description = "Identificador del pedido", example = "1")
             Long id
-    );
+    );*/
 
     /*@Operation(
             summary = "Activa o desactiva un pedido",
@@ -143,5 +122,102 @@ public interface OrderControllerSwagger {
     })
     ResponseEntity<List<OrderDTO>> findAllByActivateTrue();
 
+    @Operation(
+            summary = "Cliente confirma el pedido",
+            description = "El cliente confirma el pedido para que pase al siguiente estado",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Cambio de estado confirmado",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
+            ),
+    })
+    ResponseEntity<OrderDTO> clientConfirmOrder(Long idOrder);
+
+    @Operation(
+            summary = "Cliente cancela el pedido",
+            description = "El cliente cancela el pedido para que pase al siguiente estado",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Cambio de estado cancelado",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
+            ),
+    })
+    ResponseEntity<OrderDTO> clientCancelOrder(Long idOrder);
+
+    @Operation(
+            summary = "Cliente reordena el pedido",
+            description = "El cliente reordena el pedido para volver a abrir un pedido",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Pedido creado",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
+            ),
+    })
+    ResponseEntity<OrderDTO> clientReOrder(Long idOrder);
+
+    @Operation(
+            summary = "Jefe asigna empleado",
+            description = "El Jefe asigna el empleado al pedido y cambia de estado",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Empleado asignado",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
+            ),
+    })
+    ResponseEntity<OrderDTO> bossConfirmOrder(Long idOrder,Long idEmployee);
+
+    @Operation(
+            summary = "empleado confirma que el pedido ya esta listo ",
+            description = "empleado confirma que el pedido ya esta listo ",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Pedido listo",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
+            ),
+    })
+    ResponseEntity<OrderDTO> employeeStartReady(Long idOrder);
+
+    @Operation(
+            summary = "Rider se asigna al pedido ",
+            description = "El rider se asigna al pedido ",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Cambio de estado a on_delivery",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
+            ),
+    })
+    ResponseEntity<OrderDTO> riderStartDelivery(Long idOrder,Long idRider);
+
+    @Operation(
+            summary = "Rider confirma la entrega del pedido ",
+            description = "El rider confirma la entrega del pedido ",
+            security = { @SecurityRequirement(name = "bearerAuth") }
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Cambio de estado a delivered",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = OrderDTO.class)))
+            ),
+    })
+    ResponseEntity<OrderDTO> riderDelivered(Long idOrder,Long idRider);
 }
 

@@ -1,6 +1,7 @@
 package com.deliverysl.luxurydelivery.orderline.controller;
 
 import com.deliverysl.luxurydelivery.orderline.dto.CreateOrderlineDTO;
+import com.deliverysl.luxurydelivery.orderline.dto.EditOrderlineDTO;
 import com.deliverysl.luxurydelivery.orderline.dto.OrderlineDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -100,8 +101,8 @@ public interface OrderlineControllerSwagger {
             @RequestBody(
                     required = true,
                     description = "Datos de edición de la linea de pedido",
-                    content = @Content(schema = @Schema(implementation = CreateOrderlineDTO.class)))
-            @Valid CreateOrderlineDTO createOrderlineDTO
+                    content = @Content(schema = @Schema(implementation = EditOrderlineDTO.class)))
+            @Valid EditOrderlineDTO editOrderlineDTO
     );
 
     @Operation(
@@ -112,7 +113,7 @@ public interface OrderlineControllerSwagger {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Eliminado")
     })
-    ResponseEntity<?> deactive(
+    ResponseEntity<?> delete(
             @Parameter(description = "Identificador del pedido", example = "1")
             Long orderId,
             @Parameter(description = "Identificador de la linea de pedido", example = "1")

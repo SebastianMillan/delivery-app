@@ -2,7 +2,8 @@ package com.deliverysl.luxurydelivery.error;
 
 import com.deliverysl.luxurydelivery.allergen.exception.AllergenNotFoundException;
 import com.deliverysl.luxurydelivery.category.exception.CategoryNotFoundException;
-import com.deliverysl.luxurydelivery.order.exception.OrderNotFoundException;
+import com.deliverysl.luxurydelivery.category.exception.ProtectedCategoryException;
+import com.deliverysl.luxurydelivery.order.exception.*;
 import com.deliverysl.luxurydelivery.orderline.exception.OrderlineNotFoundException;
 import com.deliverysl.luxurydelivery.product.exception.ProductNotFoundException;
 import com.deliverysl.luxurydelivery.restaurant.exception.ProtectedRestaurantException;
@@ -14,6 +15,7 @@ import com.deliverysl.luxurydelivery.user.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -179,6 +181,43 @@ public class GlobalExceptionHandler {
         return problem;
     }
 
+    @ExceptionHandler(OrderAlreadyOpenException.class)
+    public ProblemDetail handleOrderAlreadyOpen(OrderAlreadyOpenException ex, HttpServletRequest req){
+
+        log.warn("409 Conflict {} - {}",req.getRequestURI(),ex.getMessage());
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("Client already has open order");
+        problem.setDetail(ex.getMessage());
+        enrich(problem,req,"Order.already-open");
+
+        return problem;
+    }
+
+    @ExceptionHandler(OrderNotOpenedException.class)
+    public ProblemDetail handleOrderNotOpened(OrderNotOpenedException ex,HttpServletRequest req){
+        log.warn("409 Conflict {} - {}",req.getRequestURI(),ex.getMessage());
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("Order has not already opened ");
+        problem.setDetail(ex.getMessage());
+        enrich(problem,req,"Order.not-opened");
+
+        return problem;
+    }
+
+    @ExceptionHandler(OrderNotPendingException.class)
+    public ProblemDetail handleOrderNotPending(OrderNotPendingException ex,HttpServletRequest req){
+        log.warn("409 Conflict {} - {}",req.getRequestURI(),ex.getMessage());
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("Order has not already pending ");
+        problem.setDetail(ex.getMessage());
+        enrich(problem,req,"Order.not-pending");
+
+        return problem;
+    }
+
     @ExceptionHandler(CategoryNotFoundException.class)
     public ProblemDetail handleCategoryNotFound(CategoryNotFoundException ex, HttpServletRequest req){
 
@@ -188,6 +227,45 @@ public class GlobalExceptionHandler {
         problem.setTitle("Category not found");
         problem.setDetail(ex.getMessage());
         enrich(problem,req,"Category.not-found");
+
+        return problem;
+    }
+
+    @ExceptionHandler(OrderWithoutOrderlinesException.class)
+    public ProblemDetail handleOrderWithoutOrderlines(OrderWithoutOrderlinesException ex, HttpServletRequest req){
+
+        log.warn("409 Conflict {} - {}",req.getRequestURI(),ex.getMessage());
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("Order has no active orderlines");
+        problem.setDetail(ex.getMessage());
+        enrich(problem,req,"Order.not-orderlines");
+
+        return problem;
+    }
+
+    @ExceptionHandler(OrderCannotBeReorder.class)
+    public ProblemDetail handleOrderCannotBeReorder(OrderCannotBeReorder ex, HttpServletRequest req){
+
+        log.warn("409 Conflict {} - {}",req.getRequestURI(),ex.getMessage());
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("Order cannot be reorder");
+        problem.setDetail(ex.getMessage());
+        enrich(problem,req,"Order.not-reorder");
+
+        return problem;
+    }
+
+
+    @ExceptionHandler(ProtectedCategoryException.class)
+    public ProblemDetail handleProtectedCategory(ProtectedCategoryException ex, HttpServletRequest req){
+        log.warn("403 Forbidden {} - {}",req.getRequestURI(),ex.getMessage());
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
+        problem.setTitle("Protected category");
+        problem.setDetail(ex.getMessage());
+        enrich(problem,req,"category.protected-delete-forbidden");
 
         return problem;
     }

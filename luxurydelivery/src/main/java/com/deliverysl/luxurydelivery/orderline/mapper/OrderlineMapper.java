@@ -6,6 +6,8 @@ import com.deliverysl.luxurydelivery.orderline.model.Orderline;
 import com.deliverysl.luxurydelivery.product.model.Product;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 public class OrderlineMapper {
 
@@ -36,9 +38,13 @@ public class OrderlineMapper {
     }
 
     public Orderline toEntity(CreateOrderlineDTO createOrderlineDTO,Product product){
+
+        BigDecimal subtotal = product.getPrice().multiply(BigDecimal.valueOf(createOrderlineDTO.quantity()));
+
         return Orderline.builder()
                 .quantity(createOrderlineDTO.quantity())
                 .product(product)
+                .subtotal(subtotal)
                 .build();
     }
 
