@@ -31,12 +31,12 @@ INSERT INTO user_roles (roles, user_id) VALUES (1, 6)
 INSERT INTO user_roles (roles, user_id) VALUES (3, 7)
 INSERT INTO user_roles (roles, user_id) VALUES (3, 8)
 
-INSERT INTO category(id,restaurant_id,name,description,active) VALUES (1,1,'Bebida','Refrescante',true);
-INSERT INTO category(id,restaurant_id,name,description,active) VALUES (2,1,'Entrantes','Entremeses',true);
-INSERT INTO category(id,restaurant_id,name,description,active) VALUES (3,1,'Carnes','Ibérica española',true);
-INSERT INTO category(id,restaurant_id,name,description,active) VALUES (4,1,'Pescados','Fresco y de temporada',true);
-INSERT INTO category(id,restaurant_id,name,description,active) VALUES (5,1,'Postre','Artesanos',true);
-INSERT INTO category(id,restaurant_id,name,description,active) VALUES (6,1,'Sin categoría','Para productos sin categoría seleccionada',true);
+INSERT INTO category(id,restaurant_id,name,description,active,no_category) VALUES (1,1,'Bebida','Refrescante',true,false);
+INSERT INTO category(id,restaurant_id,name,description,active,no_category) VALUES (2,1,'Entrantes','Entremeses',true,false);
+INSERT INTO category(id,restaurant_id,name,description,active,no_category) VALUES (3,1,'Carnes','Ibérica española',true,false);
+INSERT INTO category(id,restaurant_id,name,description,active,no_category) VALUES (4,1,'Pescados','Fresco y de temporada',true,false);
+INSERT INTO category(id,restaurant_id,name,description,active,no_category) VALUES (5,1,'Postre','Artesanos',true,false);
+INSERT INTO category(id,restaurant_id,name,description,active,no_category) VALUES (6,1,'Sin categoría','Para productos sin categoría seleccionada',true,true);
 
 INSERT INTO allergen(id, name, description, image,active) VALUES (1, 'Lactosa', 'Leche, lacteos y derivados', 'imagen',true);
 INSERT INTO allergen(id, name, description, image,active) VALUES (2, 'Gluten', 'Panes y harinas', 'imagen',true);

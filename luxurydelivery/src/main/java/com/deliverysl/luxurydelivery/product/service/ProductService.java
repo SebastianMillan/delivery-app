@@ -30,7 +30,6 @@ public class ProductService extends BaseServiceImpl<Product, Long> {
         for (Allergen allergen: new ArrayList<>(product.getAllergensList())){
             product.removeAllergen(allergen);
         }
-        save(product);
         deactivate(id);
     }
 

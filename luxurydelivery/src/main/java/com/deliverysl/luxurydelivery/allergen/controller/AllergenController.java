@@ -5,6 +5,7 @@ import com.deliverysl.luxurydelivery.allergen.dto.CreateAllergenDTO;
 import com.deliverysl.luxurydelivery.allergen.mapper.AllergenMapper;
 import com.deliverysl.luxurydelivery.allergen.model.Allergen;
 import com.deliverysl.luxurydelivery.allergen.service.AllergenService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class AllergenController implements AllergenControllerSwagger{
 
     @Override
     @PostMapping
-    public ResponseEntity<AllergenDTO> create(@RequestBody CreateAllergenDTO createAllergenDTO) {
+    public ResponseEntity<AllergenDTO> create(@Valid @RequestBody CreateAllergenDTO createAllergenDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(mapper.toDto(service.create(createAllergenDTO)));
     }

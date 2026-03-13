@@ -3,6 +3,7 @@ package com.deliverysl.luxurydelivery.user.service;
 import com.deliverysl.luxurydelivery.restaurant.model.Restaurant;
 import com.deliverysl.luxurydelivery.restaurant.service.RestaurantService;
 import com.deliverysl.luxurydelivery.user.dto.CreateEmployeeDTO;
+import com.deliverysl.luxurydelivery.user.exception.PasswordNotMatchException;
 import com.deliverysl.luxurydelivery.user.exception.UserNotFoundException;
 import com.deliverysl.luxurydelivery.user.mapper.EmployeeMapper;
 import com.deliverysl.luxurydelivery.user.model.Employee;
@@ -26,7 +27,7 @@ public class EmployeeService extends BaseServiceImpl<Employee,Long> {
     public Employee create(CreateEmployeeDTO createEmployeeDTO){
 
         if (!createEmployeeDTO.password().equals(createEmployeeDTO.confirmPassword())){
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            throw new PasswordNotMatchException();
         }
 
         Restaurant restaurant = restaurantService.findByIdOrThrow(createEmployeeDTO.idRestaurant());
@@ -39,7 +40,7 @@ public class EmployeeService extends BaseServiceImpl<Employee,Long> {
     public Employee edit(CreateEmployeeDTO createEmployeeDTO,Long id){
 
         if (!createEmployeeDTO.password().equals(createEmployeeDTO.confirmPassword())){
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            throw new PasswordNotMatchException();
         }
 
         Restaurant restaurant = restaurantService.findByIdOrThrow(createEmployeeDTO.idRestaurant());

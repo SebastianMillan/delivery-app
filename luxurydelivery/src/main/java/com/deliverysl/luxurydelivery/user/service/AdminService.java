@@ -1,6 +1,7 @@
 package com.deliverysl.luxurydelivery.user.service;
 
 import com.deliverysl.luxurydelivery.user.dto.CreateAdminDTO;
+import com.deliverysl.luxurydelivery.user.exception.PasswordNotMatchException;
 import com.deliverysl.luxurydelivery.user.exception.UserNotFoundException;
 import com.deliverysl.luxurydelivery.user.mapper.AdminMapper;
 import com.deliverysl.luxurydelivery.user.model.Admin;
@@ -21,7 +22,7 @@ public class AdminService extends BaseServiceImpl<Admin,Long> {
     public Admin create(@RequestBody CreateAdminDTO createAdminDTO){
 
         if (!createAdminDTO.password().equals(createAdminDTO.confirmPassword())){
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            throw new PasswordNotMatchException();
         }
 
         Admin admin = adminMapper.toEntity(createAdminDTO);
@@ -32,7 +33,7 @@ public class AdminService extends BaseServiceImpl<Admin,Long> {
     public Admin edit(@RequestBody CreateAdminDTO createAdminDTO, @PathVariable Long id){
 
         if (!createAdminDTO.password().equals(createAdminDTO.confirmPassword())){
-            throw new IllegalArgumentException("Las contraseñas no coinciden");
+            throw new PasswordNotMatchException();
         }
 
         return findOptionalById(id).map(ad ->{

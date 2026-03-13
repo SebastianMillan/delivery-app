@@ -16,5 +16,4 @@ public class UserNotFoundException extends EntityNotFoundException {
         super("User not found by id %d".formatted(id));
     }
 
-
 }

@@ -50,10 +50,10 @@ public class RestaurantMapper {
                 restaurant.getName(),
                 restaurant.getAvatar(),
                 restaurant.getRating(),
-                restaurant.getType().getName(),
-                restaurant.getCategoryList().stream()
+                restaurant.getType().getName()
+                /*restaurant.getCategoryList().stream()
                         .map(categoryMapper::toCreateDto)
-                        .toList()
+                        .toList()*/
         );
     }
 
@@ -65,6 +65,7 @@ public class RestaurantMapper {
                 .rating(createRestaurandDTO.rating())
                 .type(type)
                 .categoryList(new ArrayList<>())
+                .employeeList(new ArrayList<>())
                 .build();
     }
 }
