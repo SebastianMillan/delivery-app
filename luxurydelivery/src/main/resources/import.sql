@@ -4,14 +4,14 @@ INSERT INTO type(id,name,description,active) VALUES (3,'Hindú','Esta fresco',fa
 
 INSERT INTO restaurant(id,name,type_id,avatar,description,location,phone,rating,active) VALUES (1,'La bella Napoli',2,'Un avatar','El dueño es ludopata','Mairena del Aljarafe','954172748',0,true);
 
-INSERT INTO usuario (id, name, surnames, phone, email, password, avatar, active) VALUES (1, 'Alice', 'AdminOne', '600111222', 'alice.admin@example.com', 'password1', 'avatar1.png', true);
-INSERT INTO usuario (id, name, surnames, phone, email, password, avatar, active) VALUES (2, 'Bob', 'AdminTwo', '600333444', 'bob.admin@example.com', 'password2', 'avatar2.png', true);
-INSERT INTO usuario (id, name, surnames, phone, email, password, avatar, active) VALUES (3, 'Eva', 'Martínez López', '600999111', 'eva.martinez@example.com', 'password3', 'eva.png', true);
-INSERT INTO usuario (id, name, surnames, phone, email, password, avatar, active) VALUES (4, 'Luis', 'García Torres', '600999222', 'luis.garcia@example.com', 'password4', 'luis.png', true);
-INSERT INTO usuario (id, name, surnames, phone, email, password, avatar, active) VALUES (5, 'Paco', 'López Martinez', '600111999', 'paco.lopez@example.com', 'password5', 'paco.png', true);
-INSERT INTO usuario (id, name, surnames, phone, email, password, avatar, active) VALUES (6, 'Julian', 'Torres García', '600292399', 'julian.torres@example.com', 'password6', 'julian.png', true);
-INSERT INTO usuario (id, name, surnames, phone, email, password, avatar, active) VALUES (7, 'Mariano', 'Augusto Martinez', '602212155', 'mariano.augusti@example.com', 'password7', 'Mariano.png', true);
-INSERT INTO usuario (id, name, surnames, phone, email, password, avatar, active) VALUES (8, 'Rodolfo', 'Huachipato García', '600292399', 'rodolfo.huachipato@example.com', 'password8', 'rodolfo.png', true);
+INSERT INTO usuario (id, username, name, surnames, phone, email, password, avatar, active) VALUES (1, 'alice.admin', 'Alice', 'AdminOne', '600111222', 'alice.admin@example.com', '$2a$12$4Za3wpeW9FpKTLFuThc./e.3iRceHb/dp/52qVKdtEBg2xmgAH0Ki', 'https://robohash.org/admin1', true);
+INSERT INTO usuario (id, username, name, surnames, phone, email, password, avatar, active) VALUES (2, 'bob.admin', 'Bob', 'AdminTwo', '600333444', 'bob.admin@example.com', '$2a$12$4Za3wpeW9FpKTLFuThc./e.3iRceHb/dp/52qVKdtEBg2xmgAH0Ki', 'https://robohash.org/admin2', true);
+INSERT INTO usuario (id, username, name, surnames, phone, email, password, avatar, active) VALUES (3, 'eva.martinez', 'Eva', 'Martínez López', '600999111', 'eva.martinez@example.com', '$2a$12$4Za3wpeW9FpKTLFuThc./e.3iRceHb/dp/52qVKdtEBg2xmgAH0Ki', 'https://robohash.org/eva', true);
+INSERT INTO usuario (id, username, name, surnames, phone, email, password, avatar, active) VALUES (4, 'luis.garcia', 'Luis', 'García Torres', '600999222', 'luis.garcia@example.com', '$2a$12$4Za3wpeW9FpKTLFuThc./e.3iRceHb/dp/52qVKdtEBg2xmgAH0Ki', 'https://robohash.org/luis', true);
+INSERT INTO usuario (id, username, name, surnames, phone, email, password, avatar, active) VALUES (5, 'paco.lopez', 'Paco', 'López Martinez', '600111999', 'paco.lopez@example.com', '$2a$12$4Za3wpeW9FpKTLFuThc./e.3iRceHb/dp/52qVKdtEBg2xmgAH0Ki', 'https://robohash.org/paco', true);
+INSERT INTO usuario (id, username, name, surnames, phone, email, password, avatar, active) VALUES (6, 'julian.torres', 'Julian', 'Torres García', '600292399', 'julian.torres@example.com', '$2a$12$4Za3wpeW9FpKTLFuThc./e.3iRceHb/dp/52qVKdtEBg2xmgAH0Ki', 'https://robohash.org/julian', true);
+INSERT INTO usuario (id, username, name, surnames, phone, email, password, avatar, active) VALUES (7, 'mariano.augusto', 'Mariano', 'Augusto Martinez', '602212155', 'mariano.augusti@example.com', '$2a$12$4Za3wpeW9FpKTLFuThc./e.3iRceHb/dp/52qVKdtEBg2xmgAH0Ki', 'https://robohash.org/Mariano', true);
+INSERT INTO usuario (id, username, name, surnames, phone, email, password, avatar, active) VALUES (8, 'rodolfo.huachi', 'Rodolfo', 'Huachipato García', '600292399', 'rodolfo.huachipato@example.com', '$2a$12$4Za3wpeW9FpKTLFuThc./e.3iRceHb/dp/52qVKdtEBg2xmgAH0Ki', 'https://robohash.org/rodolfo', true);
 
 INSERT INTO admin (id, pin) VALUES (1, '1234');
 INSERT INTO admin (id, pin) VALUES (2, '5678');
@@ -21,6 +21,15 @@ INSERT INTO client (id, address) VALUES (5, 'Mairena del Aljarafe');
 INSERT INTO client (id, address) VALUES (6, 'Bollullos de la Mitación');
 INSERT INTO rider (id,dni,location) VALUES (7, '76543211A','En el metromar');
 INSERT INTO rider (id,dni,location) VALUES (8, '11223344Q','En donde cristo perdio la alpagata');
+
+INSERT INTO user_roles (roles, user_id) VALUES (0, 1)
+INSERT INTO user_roles (roles, user_id) VALUES (0, 2)
+INSERT INTO user_roles (roles, user_id) VALUES (2, 3)
+INSERT INTO user_roles (roles, user_id) VALUES (2, 4)
+INSERT INTO user_roles (roles, user_id) VALUES (1, 5)
+INSERT INTO user_roles (roles, user_id) VALUES (1, 6)
+INSERT INTO user_roles (roles, user_id) VALUES (3, 7)
+INSERT INTO user_roles (roles, user_id) VALUES (3, 8)
 
 INSERT INTO category(id,restaurant_id,name,description,active,no_category) VALUES (1,1,'Bebida','Refrescante',true,false);
 INSERT INTO category(id,restaurant_id,name,description,active,no_category) VALUES (2,1,'Entrantes','Entremeses',true,false);
