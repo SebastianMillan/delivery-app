@@ -11,3 +11,5 @@ export interface Product {
   category: string;
   allergenList: ProductAllergen[];
 }
+
+export type ProductPayload = Omit<Product, 'id'>;

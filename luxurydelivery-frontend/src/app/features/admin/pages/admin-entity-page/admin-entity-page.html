@@ -1,0 +1,49 @@
+<header class="mb-6 flex flex-wrap items-end justify-between gap-4">
+  <div>
+    <p class="text-xs uppercase tracking-[0.2em] text-amber-300">Gestión de entidad</p>
+    <h2 class="mt-2 text-3xl font-light text-white">{{ entity()?.label ?? 'Entidad' }}</h2>
+    <p class="mt-2 text-sm text-slate-300">{{ entity()?.description ?? 'Sin descripción disponible.' }}</p>
+  </div>
+
+  <div class="flex gap-3">
+    <a class="rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-200 hover:bg-white/5" routerLink="/dashboard">Volver</a>
+    <button
+      type="button"
+      class="rounded-xl border border-amber-200/40 bg-amber-100/10 px-4 py-2 text-sm text-amber-100 transition hover:bg-amber-100/20"
+      (click)="loadRecords()"
+    >
+      Recargar
+    </button>
+  </div>
+</header>
+
+@if (loading()) {
+  <p class="rounded-xl border border-white/10 bg-slate-900/60 p-4 text-sm text-slate-300">Cargando información...</p>
+} @else if (records().length === 0) {
+  <div class="rounded-xl border border-white/10 bg-slate-900/60 p-6">
+    <p class="text-sm text-slate-300">No hay registros para esta entidad o el backend todavía no expone datos.</p>
+  </div>
+} @else {
+  <div class="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60">
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-white/10 text-left text-sm">
+        <thead class="bg-white/5 text-xs uppercase tracking-wide text-slate-300">
+          <tr>
+            @for (column of recordKeys(records()[0]); track column) {
+              <th class="px-4 py-3 font-medium">{{ column }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-white/10 text-slate-200">
+          @for (record of records().slice(0, 20); track $index) {
+            <tr>
+              @for (column of recordKeys(record); track column) {
+                <td class="max-w-60 truncate px-4 py-3" [title]="cellValue(record, column)">{{ cellValue(record, column) }}</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
