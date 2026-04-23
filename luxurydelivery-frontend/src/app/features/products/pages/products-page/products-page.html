@@ -1,0 +1,32 @@
+<section class="mx-auto max-w-6xl space-y-6 p-6">
+  <header class="space-y-2">
+    <h1 class="text-3xl font-bold text-slate-900">Productos</h1>
+    <p class="text-slate-600">Catálogo inicial conectado al backend de Luxury Delivery.</p>
+  </header>
+
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <input
+      appAutofocus
+      [(ngModel)]="searchTerm"
+      type="search"
+      placeholder="Buscar por nombre o categoría"
+      class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm outline-none ring-emerald-500 focus:ring sm:max-w-sm"
+    />
+
+    <app-button label="Recargar" (clicked)="loadProducts()"></app-button>
+  </div>
+
+  @if (loading()) {
+    <p class="rounded-md bg-slate-100 px-4 py-3 text-slate-700">Cargando productos...</p>
+  } @else if (errorMessage()) {
+    <p class="rounded-md bg-red-100 px-4 py-3 text-red-700">{{ errorMessage() }}</p>
+  } @else if (!filteredProducts().length) {
+    <p class="rounded-md bg-yellow-100 px-4 py-3 text-yellow-700">No se encontraron productos.</p>
+  } @else {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (product of filteredProducts(); track product.id) {
+        <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
+  }
+</section>

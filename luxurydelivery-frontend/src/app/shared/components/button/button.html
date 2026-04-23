@@ -1,1 +1,3 @@
-<p>button works!</p>
+<button type="button" [disabled]="disabled()" [class]="buttonClass()" (click)="onClick()">
+  {{ label() }}
+</button>
