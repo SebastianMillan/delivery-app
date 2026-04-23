@@ -11,7 +11,6 @@ export interface AdminEntityDefinition {
   key: EntityKey;
   label: string;
   description: string;
-  endpoint: string;
   accentClass: string;
 }
 
