@@ -3,3 +3,12 @@
 @plugin "tailwindcss-primeui";
 
 @layer primeng;
+
+html,
+body {
+  @apply min-h-full bg-slate-950 text-slate-100 antialiased;
+}
+
+body {
+  @apply m-0 font-sans;
+}
